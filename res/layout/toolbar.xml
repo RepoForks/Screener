@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res-auto" app:theme="@style/ThemeOverlay_AppCompat_Dark_ActionBar" app:background="?attr/colorPrimary" app:layout_width="match_parent" app:layout_height="UNKNOWN_DATA_0x3801" app:minHeight="?attr/actionBarSize" app:popupTheme="@style/ThemeOverlay_AppCompat_Light" app:layout_scrollFlags="5" />

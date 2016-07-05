@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res-auto" app:id="@+id/coordinate" app:layout_width="match_parent" app:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout app:theme="@style/AppTheme_AppBarOverlay" app:id="@+id/appBarLayout" app:layout_width="match_parent" app:layout_height="wrap_content">
+        <include app:id="@+id/toolbar" app:layout_width="match_parent" app:layout_height="UNKNOWN_DATA_0x3801" app:layout_scrollFlags="15" layout="@layout/toolbar" />
+        <android.support.design.widget.TabLayout app:id="@+id/tabs" app:layout_width="wrap_content" app:layout_height="wrap_content" app:layout_marginLeft="5dp" />
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.view.ViewPager app:id="@+id/viewpager" app:layout_width="match_parent" app:layout_height="match_parent" app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    <FrameLayout app:id="@+id/content_frame" app:layout_width="match_parent" app:layout_height="match_parent" app:layout_below="@+id/toolbar" app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</android.support.design.widget.CoordinatorLayout>

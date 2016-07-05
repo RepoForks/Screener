@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <Button android:textSize="12sp" android:textColor="@color/primary" android:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" android:id="@+id/notif_count" android:background="@drawable/shape_notification" android:clickable="false" android:layout_width="UNKNOWN_DATA_0x1801" android:layout_height="UNKNOWN_DATA_0x1801" android:maxWidth="24dp" android:maxHeight="24dp" android:text="0" android:singleLine="true" />
+</RelativeLayout>

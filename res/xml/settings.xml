@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/license">
+        <Preference android:title="@string/pref_license" android:key="licenseKey" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/Other">
+        <Preference android:title="@string/pref_intro" android:key="introKey" />
+    </PreferenceCategory>
+</PreferenceScreen>

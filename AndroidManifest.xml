@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="14" android:versionName="2.0" package="de.toastcode.screener" platformBuildVersionCode="24" platformBuildVersionName="N">
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="24" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <permission android:name="de.toastcode.screener.permission.C2D_MESSAGE" android:protectionLevel="signature|signatureOrSystem" />
+    <uses-permission android:name="de.toastcode.screener.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <application android:theme="@style/AppTheme" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:name="de.toastcode.screener.Application" android:allowBackup="false" android:largeHeap="true" android:resizeableActivity="true">
+        <activity android:theme="@style/AppTheme_Launcher" android:label="@string/app_name" android:name="de.toastcode.screener.LaunchActivity" android:supportsPictureInPicture="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:label="@string/app_name" android:name="de.toastcode.screener.MainActivity" android:supportsPictureInPicture="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:label="@string/app_name" android:name="de.toastcode.screener.activities.Device_Detail_Activity" android:launchMode="singleTask" android:parentActivityName="de.toastcode.screener.activities.Device_Detail_Activity" android:supportsPictureInPicture="true">
+            <intent-filter>
+                <action android:name="de.screener.Device_Detail_Activity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:label="@string/app_name" android:name="de.toastcode.screener.activities.ColorPickerActivity" android:parentActivityName="de.toastcode.screener.activities.ColorPickerActivity" android:supportsPictureInPicture="true">
+            <intent-filter>
+                <action android:name="de.screener.ColorPickerActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:label="@string/app_name" android:name="de.toastcode.screener.activities.License_Activity" android:launchMode="singleTask" android:parentActivityName="de.toastcode.screener.activities.License_Activity" android:supportsPictureInPicture="true">
+            <intent-filter>
+                <action android:name="de.screener.License_Activity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:label="@string/app_name" android:name="de.toastcode.screener.activities.Choose_CompanyActivity" android:parentActivityName="de.toastcode.screener.activities.Choose_CompanyActivity" android:supportsPictureInPicture="true">
+            <intent-filter>
+                <action android:name="de.screener.Choose_CompanyActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:label="@string/app_name" android:name="de.toastcode.screener.activities.Device_DownloadActivity" android:parentActivityName="de.toastcode.screener.activities.Device_DownloadActivity" android:supportsPictureInPicture="true">
+            <intent-filter>
+                <action android:name="de.screener.Device_DownloadActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:label="@string/app_name" android:name="de.toastcode.screener.activities.Download_Activity" android:parentActivityName="de.toastcode.screener.activities.Download_Activity" android:supportsPictureInPicture="true">
+            <intent-filter>
+                <action android:name="de.screener.Download_Activity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" android:supportsPictureInPicture="true" />
+        <meta-data android:name="io.fabric.ApiKey" android:value="533dd614eb03a71ca9cdbb313b8e6e04f002a72c" />
+        <receiver android:name="com.google.android.gms.measurement.AppMeasurementReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.measurement.UPLOAD" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.google.android.gms.measurement.AppMeasurementService" android:enabled="true" android:exported="false" />
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <provider android:name="com.google.firebase.provider.FirebaseInitProvider" android:exported="false" android:authorities="de.toastcode.screener.firebaseinitprovider" android:initOrder="100" />
+        <activity android:theme="@*android:style/Theme.Translucent.NoTitleBar" android:name="com.google.android.gms.common.api.GoogleApiActivity" android:exported="false" />
+        <receiver android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver" android:permission="com.google.android.c2dm.permission.SEND" android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="de.toastcode.screener" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver" android:exported="false" />
+        <service android:name="com.google.firebase.iid.FirebaseInstanceIdService" android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name="com.google.firebase.messaging.FirebaseMessagingService" android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <activity android:name="com.mikepenz.aboutlibraries.ui.LibsActivity" />
+    </application>
+</manifest>

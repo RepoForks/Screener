@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res-auto">
+    <item app:icon="@drawable/ic_launch_24dp" app:id="@+id/action_launch" app:orderInCategory="100" app:title="@string/action_menu" app:showAsAction="always">
+        <menu>
+            <item app:icon="@drawable/ic_sd_storage_24dp" app:id="@+id/action_save" app:title="@string/action_save" />
+            <item app:icon="@drawable/ic_share_24dp" app:id="@+id/action_share" app:title="@string/share" />
+        </menu> />
+</menu>

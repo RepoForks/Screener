@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:background="@color/white" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="64dp">
+    <ImageButton android:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" android:background="0x106000d" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_weight="2.0" />
+    <SeekBar android:layout_gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" android:id="@+id/seekbar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:max="100" android:layout_weight="13.0" />
+    <ImageButton android:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" android:background="0x106000d" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_weight="2.0" />
+</LinearLayout>

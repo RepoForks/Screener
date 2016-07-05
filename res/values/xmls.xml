@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <xml name="settings">res/xml/settings.xml</xml>
+</resources>
