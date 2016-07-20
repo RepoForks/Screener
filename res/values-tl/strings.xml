@@ -19,5 +19,6 @@
     <string name="abc_shareactionprovider_share_with">Ibahagi sa/kay</string>
     <string name="abc_shareactionprovider_share_with_application">Ibahagi sa/kay %s</string>
     <string name="abc_toolbar_collapse_description">I-collapse</string>
+    <string name="common_google_play_services_unknown_issue">Nagkakaroon ng problema sa mga serbisyo ng Google Play ang %1$s. Kung magpapatuloy ang problema, mangyaring makipag-ugnayan sa developer para sa tulong.</string>
     <string name="status_bar_notification_info_overflow">999+</string>
 </resources>

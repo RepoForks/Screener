@@ -11,9 +11,9 @@ public final class R {
     }
 
     public static final class color {
-        public static final int crop__button_bar = 2131558515;
-        public static final int crop__button_text = 2131558516;
-        public static final int crop__selector_focused = 2131558517;
+        public static final int crop__button_bar = 2131558498;
+        public static final int crop__button_text = 2131558499;
+        public static final int crop__selector_focused = 2131558500;
         public static final int crop__selector_pressed = 2131558400;
     }
 
@@ -22,21 +22,21 @@ public final class R {
     }
 
     public static final class drawable {
-        public static final int crop__divider = 2130837672;
-        public static final int crop__ic_cancel = 2130837673;
-        public static final int crop__ic_done = 2130837674;
-        public static final int crop__selectable_background = 2130837675;
-        public static final int crop__texture = 2130837676;
-        public static final int crop__tile = 2130837677;
+        public static final int crop__divider = 2130837630;
+        public static final int crop__ic_cancel = 2130837631;
+        public static final int crop__ic_done = 2130837632;
+        public static final int crop__selectable_background = 2130837633;
+        public static final int crop__texture = 2130837634;
+        public static final int crop__tile = 2130837635;
     }
 
     public static final class id {
         public static final int always = 2131689546;
-        public static final int btn_cancel = 2131689637;
-        public static final int btn_done = 2131689638;
+        public static final int btn_cancel = 2131689632;
+        public static final int btn_done = 2131689633;
         public static final int changing = 2131689547;
-        public static final int crop_image = 2131689636;
-        public static final int done_cancel_bar = 2131689635;
+        public static final int crop_image = 2131689631;
+        public static final int done_cancel_bar = 2131689630;
         public static final int never = 2131689548;
     }
 
@@ -46,11 +46,11 @@ public final class R {
     }
 
     public static final class string {
-        public static final int crop__cancel = 2131230771;
-        public static final int crop__done = 2131230772;
-        public static final int crop__pick_error = 2131230773;
-        public static final int crop__saving = 2131230774;
-        public static final int crop__wait = 2131230775;
+        public static final int crop__cancel = 2131230741;
+        public static final int crop__done = 2131230742;
+        public static final int crop__pick_error = 2131230743;
+        public static final int crop__saving = 2131230744;
+        public static final int crop__wait = 2131230745;
     }
 
     public static final class style {

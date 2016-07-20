@@ -7,7 +7,7 @@
     <integer name="abc_config_activityShortDur">150</integer>
     <integer name="bottom_sheet_slide_duration">150</integer>
     <integer name="cancel_button_image_alpha">127</integer>
-    <integer name="google_play_services_version">9080000</integer>
+    <integer name="google_play_services_version">9256000</integer>
     <integer name="preference_fragment_scrollbarStyle">2000000</integer>
     <integer name="status_bar_notification_info_maxnum">999</integer>
 </resources>

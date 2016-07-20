@@ -22,10 +22,8 @@ import java.lang.reflect.Field;
 
 public class MDTintHelper {
     public static void setTint(@NonNull RadioButton radioButton, @ColorInt int color) {
-        r3 = new int[2][];
-        r3[0] = new int[]{-16842912};
-        r3[1] = new int[]{16842912};
-        ColorStateList sl = new ColorStateList(r3, new int[]{DialogUtils.resolveColor(radioButton.getContext(), R.attr.colorControlNormal), color});
+        int disabledColor = DialogUtils.getDisabledColor(radioButton.getContext());
+        ColorStateList sl = new ColorStateList(new int[][]{new int[]{16842910, -16842912}, new int[]{16842910, 16842912}, new int[]{-16842910, -16842912}, new int[]{-16842910, 16842912}}, new int[]{DialogUtils.resolveColor(radioButton.getContext(), R.attr.colorControlNormal), color, disabledColor, disabledColor});
         if (VERSION.SDK_INT >= 21) {
             radioButton.setButtonTintList(sl);
             return;
@@ -115,10 +113,8 @@ public class MDTintHelper {
     }
 
     public static void setTint(@NonNull CheckBox box, @ColorInt int color) {
-        r3 = new int[2][];
-        r3[0] = new int[]{-16842912};
-        r3[1] = new int[]{16842912};
-        ColorStateList sl = new ColorStateList(r3, new int[]{DialogUtils.resolveColor(box.getContext(), R.attr.colorControlNormal), color});
+        int disabledColor = DialogUtils.getDisabledColor(box.getContext());
+        ColorStateList sl = new ColorStateList(new int[][]{new int[]{16842910, -16842912}, new int[]{16842910, 16842912}, new int[]{-16842910, -16842912}, new int[]{-16842910, 16842912}}, new int[]{DialogUtils.resolveColor(box.getContext(), R.attr.colorControlNormal), color, disabledColor, disabledColor});
         if (VERSION.SDK_INT >= 21) {
             box.setButtonTintList(sl);
             return;

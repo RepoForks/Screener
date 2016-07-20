@@ -16,28 +16,33 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 public class zzg {
-    SharedPreferences zzaUD;
-    Context zzov;
+    SharedPreferences acs;
+    Context zzagf;
 
     public zzg(Context context) {
         this(context, "com.google.android.gms.appid");
     }
 
     public zzg(Context context, String str) {
-        this.zzov = context;
-        this.zzaUD = context.getSharedPreferences(str, 4);
+        this.zzagf = context;
+        this.acs = context.getSharedPreferences(str, 4);
         String valueOf = String.valueOf(str);
         String valueOf2 = String.valueOf("-no-backup");
-        zzeC(valueOf2.length() != 0 ? valueOf.concat(valueOf2) : new String(valueOf));
+        zzkg(valueOf2.length() != 0 ? valueOf.concat(valueOf2) : new String(valueOf));
     }
 
-    private void zzeC(String str) {
-        File file = new File(zzx.getNoBackupFilesDir(this.zzov), str);
+    private String zzh(String str, String str2, String str3) {
+        String valueOf = String.valueOf("|T|");
+        return new StringBuilder((((String.valueOf(str).length() + 1) + String.valueOf(valueOf).length()) + String.valueOf(str2).length()) + String.valueOf(str3).length()).append(str).append(valueOf).append(str2).append("|").append(str3).toString();
+    }
+
+    private void zzkg(String str) {
+        File file = new File(zzx.getNoBackupFilesDir(this.zzagf), str);
         if (!file.exists()) {
             try {
                 if (file.createNewFile() && !isEmpty()) {
                     Log.i("InstanceID/Store", "App restored, clearing state");
-                    FirebaseInstanceId.zza(this.zzov, this);
+                    FirebaseInstanceId.zza(this.zzagf, this);
                 }
             } catch (IOException e) {
                 if (Log.isLoggable("InstanceID/Store", 3)) {
@@ -50,33 +55,20 @@ public class zzg {
         }
     }
 
-    private String zzh(String str, String str2, String str3) {
-        String valueOf = String.valueOf("|T|");
-        return new StringBuilder((((String.valueOf(str).length() + 1) + String.valueOf(valueOf).length()) + String.valueOf(str2).length()) + String.valueOf(str3).length()).append(str).append(valueOf).append(str2).append("|").append(str3).toString();
-    }
-
     synchronized String get(String str) {
-        return this.zzaUD.getString(str, null);
+        return this.acs.getString(str, null);
     }
 
     synchronized String get(String str, String str2) {
         SharedPreferences sharedPreferences;
         String valueOf;
-        sharedPreferences = this.zzaUD;
+        sharedPreferences = this.acs;
         valueOf = String.valueOf("|S|");
         return sharedPreferences.getString(new StringBuilder(((String.valueOf(str).length() + 0) + String.valueOf(valueOf).length()) + String.valueOf(str2).length()).append(str).append(valueOf).append(str2).toString(), null);
     }
 
     public boolean isEmpty() {
-        return this.zzaUD.getAll().isEmpty();
-    }
-
-    public synchronized void zzCk() {
-        this.zzaUD.edit().clear().commit();
-    }
-
-    public SharedPreferences zzUv() {
-        return this.zzaUD;
+        return this.acs.getAll().isEmpty();
     }
 
     synchronized void zza(Editor editor, String str, String str2, String str3) {
@@ -86,27 +78,46 @@ public class zzg {
 
     public synchronized void zza(String str, String str2, String str3, String str4, String str5) {
         String zzh = zzh(str, str2, str3);
-        Editor edit = this.zzaUD.edit();
+        Editor edit = this.acs.edit();
         edit.putString(zzh, str4);
         edit.putString("appVersion", str5);
         edit.putString("lastToken", Long.toString(System.currentTimeMillis() / 1000));
         edit.commit();
     }
 
-    synchronized KeyPair zzd(String str, long j) {
-        KeyPair zzCc;
-        zzCc = zza.zzCc();
-        Editor edit = this.zzaUD.edit();
-        zza(edit, str, "|P|", FirebaseInstanceId.zzp(zzCc.getPublic().getEncoded()));
-        zza(edit, str, "|K|", FirebaseInstanceId.zzp(zzCc.getPrivate().getEncoded()));
-        zza(edit, str, "cre", Long.toString(j));
-        edit.commit();
-        return zzCc;
+    public synchronized void zzbna() {
+        this.acs.edit().clear().commit();
     }
 
-    public synchronized void zzeD(String str) {
-        Editor edit = this.zzaUD.edit();
-        for (String str2 : this.zzaUD.getAll().keySet()) {
+    public SharedPreferences zzcxd() {
+        return this.acs;
+    }
+
+    synchronized KeyPair zze(String str, long j) {
+        KeyPair zzbms;
+        zzbms = zza.zzbms();
+        Editor edit = this.acs.edit();
+        zza(edit, str, "|P|", FirebaseInstanceId.zzz(zzbms.getPublic().getEncoded()));
+        zza(edit, str, "|K|", FirebaseInstanceId.zzz(zzbms.getPrivate().getEncoded()));
+        zza(edit, str, "cre", Long.toString(j));
+        edit.commit();
+        return zzbms;
+    }
+
+    public synchronized String zzi(String str, String str2, String str3) {
+        return this.acs.getString(zzh(str, str2, str3), null);
+    }
+
+    public synchronized void zzj(String str, String str2, String str3) {
+        String zzh = zzh(str, str2, str3);
+        Editor edit = this.acs.edit();
+        edit.remove(zzh);
+        edit.commit();
+    }
+
+    public synchronized void zzkh(String str) {
+        Editor edit = this.acs.edit();
+        for (String str2 : this.acs.getAll().keySet()) {
             if (str2.startsWith(str)) {
                 edit.remove(str2);
             }
@@ -114,19 +125,19 @@ public class zzg {
         edit.commit();
     }
 
-    public KeyPair zzeE(String str) {
-        return zzeH(str);
+    public KeyPair zzki(String str) {
+        return zzkl(str);
     }
 
-    void zzeF(String str) {
-        zzeD(String.valueOf(str).concat("|"));
+    void zzkj(String str) {
+        zzkh(String.valueOf(str).concat("|"));
     }
 
-    public void zzeG(String str) {
-        zzeD(String.valueOf(str).concat("|T|"));
+    public void zzkk(String str) {
+        zzkh(String.valueOf(str).concat("|T|"));
     }
 
-    KeyPair zzeH(String str) {
+    KeyPair zzkl(String str) {
         Object e;
         String str2 = get(str, "|P|");
         String str3 = get(str, "|K|");
@@ -142,25 +153,14 @@ public class zzg {
             e = e2;
             str2 = String.valueOf(e);
             Log.w("InstanceID/Store", new StringBuilder(String.valueOf(str2).length() + 19).append("Invalid key stored ").append(str2).toString());
-            FirebaseInstanceId.zza(this.zzov, this);
+            FirebaseInstanceId.zza(this.zzagf, this);
             return null;
         } catch (NoSuchAlgorithmException e3) {
             e = e3;
             str2 = String.valueOf(e);
             Log.w("InstanceID/Store", new StringBuilder(String.valueOf(str2).length() + 19).append("Invalid key stored ").append(str2).toString());
-            FirebaseInstanceId.zza(this.zzov, this);
+            FirebaseInstanceId.zza(this.zzagf, this);
             return null;
         }
-    }
-
-    public synchronized String zzi(String str, String str2, String str3) {
-        return this.zzaUD.getString(zzh(str, str2, str3), null);
-    }
-
-    public synchronized void zzj(String str, String str2, String str3) {
-        String zzh = zzh(str, str2, str3);
-        Editor edit = this.zzaUD.edit();
-        edit.remove(zzh);
-        edit.commit();
     }
 }

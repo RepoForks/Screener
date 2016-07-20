@@ -9,45 +9,45 @@ import me.zhanghai.android.materialprogressbar.R;
 
 public class zzc implements Creator<RemoteMessage> {
     static void zza(RemoteMessage remoteMessage, Parcel parcel, int i) {
-        int zzar = zzb.zzar(parcel);
+        int zzcm = zzb.zzcm(parcel);
         zzb.zzc(parcel, 1, remoteMessage.mVersionCode);
-        zzb.zza(parcel, 2, remoteMessage.zzaay, false);
-        zzb.zzJ(parcel, zzar);
+        zzb.zza(parcel, 2, remoteMessage.bM, false);
+        zzb.zzaj(parcel, zzcm);
     }
 
     public /* synthetic */ Object createFromParcel(Parcel parcel) {
-        return zzjy(parcel);
+        return zzvd(parcel);
     }
 
     public /* synthetic */ Object[] newArray(int i) {
-        return zznI(i);
+        return zzadu(i);
     }
 
-    public RemoteMessage zzjy(Parcel parcel) {
-        int zzaq = zza.zzaq(parcel);
+    public RemoteMessage[] zzadu(int i) {
+        return new RemoteMessage[i];
+    }
+
+    public RemoteMessage zzvd(Parcel parcel) {
+        int zzcl = zza.zzcl(parcel);
         int i = 0;
         Bundle bundle = null;
-        while (parcel.dataPosition() < zzaq) {
-            int zzap = zza.zzap(parcel);
-            switch (zza.zzcj(zzap)) {
+        while (parcel.dataPosition() < zzcl) {
+            int zzck = zza.zzck(parcel);
+            switch (zza.zzgi(zzck)) {
                 case R.styleable.View_android_focusable /*1*/:
-                    i = zza.zzg(parcel, zzap);
+                    i = zza.zzg(parcel, zzck);
                     break;
                 case R.styleable.View_paddingStart /*2*/:
-                    bundle = zza.zzs(parcel, zzap);
+                    bundle = zza.zzs(parcel, zzck);
                     break;
                 default:
-                    zza.zzb(parcel, zzap);
+                    zza.zzb(parcel, zzck);
                     break;
             }
         }
-        if (parcel.dataPosition() == zzaq) {
+        if (parcel.dataPosition() == zzcl) {
             return new RemoteMessage(i, bundle);
         }
-        throw new zza.zza("Overread allowed size end=" + zzaq, parcel);
-    }
-
-    public RemoteMessage[] zznI(int i) {
-        return new RemoteMessage[i];
+        throw new zza.zza("Overread allowed size end=" + zzcl, parcel);
     }
 }

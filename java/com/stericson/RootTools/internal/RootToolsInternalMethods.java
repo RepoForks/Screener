@@ -159,14 +159,13 @@ public final class RootToolsInternalMethods {
     }
 
     public boolean copyFile(String source, String destination, boolean remountAsRw, boolean preserveFileAttributes) {
-        Exception e;
         Command command = null;
         boolean result = true;
         if (remountAsRw) {
             try {
                 RootTools.remount(destination, "RW");
-            } catch (Exception e2) {
-                e = e2;
+            } catch (Exception e) {
+                e = e;
                 e.printStackTrace();
                 result = false;
                 if (command == null) {
@@ -190,10 +189,11 @@ public final class RootToolsInternalMethods {
                         result = false;
                     }
                     command = command2;
-                } catch (Exception e3) {
-                    e = e3;
+                } catch (Exception e2) {
+                    Exception e3;
+                    e3 = e2;
                     command = command2;
-                    e.printStackTrace();
+                    e3.printStackTrace();
                     result = false;
                     if (command == null) {
                         return result;
@@ -519,18 +519,18 @@ public final class RootToolsInternalMethods {
     }
 
     public ArrayList<Mount> getMounts() throws Exception {
-        LineNumberReader lnr;
         Throwable th;
         Shell shell = RootTools.getShell(true);
         Command cmd = new Command(0, false, "cat /proc/mounts > /data/local/RootToolsMounts", "chmod 0777 /data/local/RootToolsMounts");
         shell.add(cmd);
         commandWait(shell, cmd);
-        LineNumberReader lnr2 = null;
+        LineNumberReader lnr = null;
         FileReader fr = null;
         try {
+            LineNumberReader lnr2;
             FileReader fr2 = new FileReader("/data/local/RootToolsMounts");
             try {
-                lnr = new LineNumberReader(fr2);
+                lnr2 = new LineNumberReader(fr2);
             } catch (Throwable th2) {
                 th = th2;
                 fr = fr2;
@@ -539,7 +539,7 @@ public final class RootToolsInternalMethods {
                 } catch (Exception e) {
                 }
                 try {
-                    lnr2.close();
+                    lnr.close();
                 } catch (Exception e2) {
                 }
                 throw th;
@@ -547,7 +547,7 @@ public final class RootToolsInternalMethods {
             try {
                 ArrayList<Mount> mounts = new ArrayList();
                 while (true) {
-                    String line = lnr.readLine();
+                    String line = lnr2.readLine();
                     if (line == null) {
                         break;
                     }
@@ -563,7 +563,7 @@ public final class RootToolsInternalMethods {
                     } catch (Exception e3) {
                     }
                     try {
-                        lnr.close();
+                        lnr2.close();
                     } catch (Exception e4) {
                     }
                     return arrayList;
@@ -572,15 +572,15 @@ public final class RootToolsInternalMethods {
             } catch (Throwable th3) {
                 th = th3;
                 fr = fr2;
-                lnr2 = lnr;
+                lnr = lnr2;
                 fr.close();
-                lnr2.close();
+                lnr.close();
                 throw th;
             }
         } catch (Throwable th4) {
             th = th4;
             fr.close();
-            lnr2.close();
+            lnr.close();
             throw th;
         }
     }

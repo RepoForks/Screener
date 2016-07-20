@@ -3,6 +3,8 @@ package de.toastcode.screener.activities;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
@@ -71,6 +73,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import me.zhanghai.android.materialprogressbar.BuildConfig;
 
@@ -90,6 +93,7 @@ public class Device_Detail_Activity extends AppCompatActivity {
     Crypy crypy = new Crypy();
     Cursor cursor = null;
     SQLiteDatabase db;
+    ArrayList<String> dbData;
     Database_Helper dbh;
     String device;
     Bitmap device_frame;
@@ -100,9 +104,12 @@ public class Device_Detail_Activity extends AppCompatActivity {
     boolean glare_sel;
     boolean isBlur;
     boolean isColor;
+    boolean isHGPressed;
     boolean isLandscape;
-    boolean isReRotate = false;
+    boolean isReRotate;
     boolean isRoundedWatch;
+    boolean isScreenPressed;
+    boolean isSecond;
     boolean isWatch;
     boolean is_HG_set;
     ImageView iv_frame;
@@ -121,6 +128,7 @@ public class Device_Detail_Activity extends AppCompatActivity {
     String saved_color;
     StackBlurManager sbManager;
     int sbheight = 0;
+    boolean setResume = false;
     boolean shadow_sel;
     SeekBar skbar;
     Snackbar snack;
@@ -197,14 +205,14 @@ public class Device_Detail_Activity extends AppCompatActivity {
                 Device_Detail_Activity.this.final_bg = Bitmap.createScaledBitmap(Device_Detail_Activity.this.final_bg, Device_Detail_Activity.this.device_frame.getWidth(), Device_Detail_Activity.this.device_frame.getHeight(), false);
             }
             if (Device_Detail_Activity.this.glare_sel) {
-                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(Device_Detail_Activity.this.cursor.getString(4) + ".png");
+                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(((String) Device_Detail_Activity.this.dbData.get(3)) + ".png");
                 this.glares = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory().getPath() + "/Android/data/de.toastcode.screener/" + Device_Detail_Activity.this.s).getAbsolutePath());
                 this.no_add = BitmapFactory.decodeResource(Device_Detail_Activity.this.getResources(), R.drawable.no_settings);
             } else {
                 this.glares = BitmapFactory.decodeResource(Device_Detail_Activity.this.getResources(), R.drawable.no_settings);
             }
             if (Device_Detail_Activity.this.shadow_sel) {
-                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(Device_Detail_Activity.this.cursor.getString(5) + ".png");
+                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(((String) Device_Detail_Activity.this.dbData.get(4)) + ".png");
                 this.shadows = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory().getPath() + "/Android/data/de.toastcode.screener/" + Device_Detail_Activity.this.s).getAbsolutePath());
                 this.no_add = BitmapFactory.decodeResource(Device_Detail_Activity.this.getResources(), R.drawable.no_settings);
             } else {
@@ -217,11 +225,13 @@ public class Device_Detail_Activity extends AppCompatActivity {
                 this.screen = Device_Detail_Activity.this.rotateScreen(this.screen);
                 Device_Detail_Activity.this.rotate = true;
             }
-            this.resultbitmap = Device_Detail_Activity.this.combineImages(this.glares, this.shadows, this.screen, Device_Detail_Activity.this.device_frame, Device_Detail_Activity.this.final_bg, this.mSelectedColorCal0, false);
+            if (!(this.glares == null || this.shadows == null || this.screen == null || Device_Detail_Activity.this.device_frame == null || Device_Detail_Activity.this.final_bg == null)) {
+                this.resultbitmap = Device_Detail_Activity.this.combineImages(this.glares, this.shadows, this.screen, Device_Detail_Activity.this.device_frame, Device_Detail_Activity.this.final_bg, this.mSelectedColorCal0, false);
+            }
             if (Device_Detail_Activity.this.isLandscape) {
                 if (Device_Detail_Activity.this.title.equals("Nexus 4")) {
                     this.resultbitmap = Device_Detail_Activity.this.rotateLandscape(this.resultbitmap, -90.0f, Device_Detail_Activity.this.n4_yxPosS_normal[0], Device_Detail_Activity.this.n4_yxPosS_normal[1]);
-                } else if (Device_Detail_Activity.this.cursor.getString(2).contains("_2k")) {
+                } else if (((String) Device_Detail_Activity.this.dbData.get(1)).contains("_2k")) {
                     this.resultbitmap = Device_Detail_Activity.this.rotateLandscape(this.resultbitmap, -90.0f, Device_Detail_Activity.this._2k_yxPosS_normal[0], Device_Detail_Activity.this._2k_yxPosS_normal[1]);
                 } else {
                     this.resultbitmap = Device_Detail_Activity.this.rotateLandscape(this.resultbitmap, -90.0f, Device_Detail_Activity.this.yxPosS_normal[0], Device_Detail_Activity.this.yxPosS_normal[1]);
@@ -273,18 +283,18 @@ public class Device_Detail_Activity extends AppCompatActivity {
             }
             if (Device_Detail_Activity.this.final_bg == null) {
                 Device_Detail_Activity.this.final_bg = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(Device_Detail_Activity.this.getResources(), R.drawable.no_settings), Device_Detail_Activity.this.unscaled_width, Device_Detail_Activity.this.unscaled_height, false);
-            } else {
+            } else if (Device_Detail_Activity.this.device_frame != null) {
                 Device_Detail_Activity.this.final_bg = Bitmap.createScaledBitmap(Device_Detail_Activity.this.final_bg, Device_Detail_Activity.this.device_frame.getWidth(), Device_Detail_Activity.this.device_frame.getHeight(), false);
             }
             if (Device_Detail_Activity.this.glare_sel) {
-                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(Device_Detail_Activity.this.cursor.getString(4) + ".png");
+                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(((String) Device_Detail_Activity.this.dbData.get(3)) + ".png");
                 this.glares = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory().getPath() + "/Android/data/de.toastcode.screener/" + Device_Detail_Activity.this.s).getAbsolutePath());
                 this.no_add = BitmapFactory.decodeResource(Device_Detail_Activity.this.getResources(), R.drawable.no_settings);
             } else {
                 this.glares = BitmapFactory.decodeResource(Device_Detail_Activity.this.getResources(), R.drawable.no_settings);
             }
             if (Device_Detail_Activity.this.shadow_sel) {
-                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(Device_Detail_Activity.this.cursor.getString(5) + ".png");
+                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(((String) Device_Detail_Activity.this.dbData.get(4)) + ".png");
                 this.shadows = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory().getPath() + "/Android/data/de.toastcode.screener/" + Device_Detail_Activity.this.s).getAbsolutePath());
                 this.no_add = BitmapFactory.decodeResource(Device_Detail_Activity.this.getResources(), R.drawable.no_settings);
             } else {
@@ -297,11 +307,13 @@ public class Device_Detail_Activity extends AppCompatActivity {
                 this.screen = Device_Detail_Activity.this.rotateScreen(this.screen);
                 Device_Detail_Activity.this.rotate = true;
             }
-            this.resultbitmap = Device_Detail_Activity.this.combineImages(this.glares, this.shadows, this.screen, Device_Detail_Activity.this.device_frame, Device_Detail_Activity.this.final_bg, this.mSelectedColorCal0, true);
+            if (!(this.glares == null || this.shadows == null || this.screen == null || Device_Detail_Activity.this.device_frame == null || Device_Detail_Activity.this.final_bg == null)) {
+                this.resultbitmap = Device_Detail_Activity.this.combineImages(this.glares, this.shadows, this.screen, Device_Detail_Activity.this.device_frame, Device_Detail_Activity.this.final_bg, this.mSelectedColorCal0, true);
+            }
             if (Device_Detail_Activity.this.isLandscape) {
                 if (Device_Detail_Activity.this.title.equals("Nexus 4")) {
                     this.resultbitmap = Device_Detail_Activity.this.rotateLandscape(this.resultbitmap, -90.0f, Device_Detail_Activity.this.n4_yxPosS_normal[0], Device_Detail_Activity.this.n4_yxPosS_normal[1]);
-                } else if (Device_Detail_Activity.this.cursor.getString(2).contains("_2k")) {
+                } else if (((String) Device_Detail_Activity.this.dbData.get(1)).contains("_2k")) {
                     this.resultbitmap = Device_Detail_Activity.this.rotateLandscape(this.resultbitmap, -90.0f, Device_Detail_Activity.this._2k_yxPosS_normal[0], Device_Detail_Activity.this._2k_yxPosS_normal[1]);
                 } else {
                     this.resultbitmap = Device_Detail_Activity.this.rotateLandscape(this.resultbitmap, -90.0f, Device_Detail_Activity.this.yxPosS_normal[0], Device_Detail_Activity.this.yxPosS_normal[1]);
@@ -319,11 +331,28 @@ public class Device_Detail_Activity extends AppCompatActivity {
             if (!Device_Detail_Activity.this.tempPath.equals(BuildConfig.FLAVOR)) {
                 Glide.with(Device_Detail_Activity.this.getApplicationContext()).load(Device_Detail_Activity.this.tempPath).placeholder(imgView.getDrawable()).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imgView);
                 imgView.invalidate();
-                this.glares.recycle();
-                this.shadows.recycle();
                 this.screen = null;
                 this.glares = null;
                 this.shadows = null;
+            }
+            if (Device_Detail_Activity.this.isColor) {
+                Device_Detail_Activity.this.rel.setBackgroundColor(Device_Detail_Activity.this.parsed_color);
+                Device_Detail_Activity.this.final_bg = null;
+                Device_Detail_Activity.this.bg = null;
+                if (Device_Detail_Activity.this.parsed_color == -1) {
+                    Device_Detail_Activity.this.trans = false;
+                    Device_Detail_Activity.this.mToolbar.setBackgroundColor(Device_Detail_Activity.this.getResources().getColor(R.color.primary));
+                    Device_Detail_Activity.this.trans_statusbar(Device_Detail_Activity.this.getResources().getColor(R.color.primary_dark));
+                } else if (Device_Detail_Activity.this.parsed_color == 16777215) {
+                    Device_Detail_Activity.this.trans = false;
+                    Device_Detail_Activity.this.mToolbar.setBackgroundColor(Device_Detail_Activity.this.getResources().getColor(R.color.primary));
+                    Device_Detail_Activity.this.trans_statusbar(Device_Detail_Activity.this.getResources().getColor(R.color.primary_dark));
+                } else {
+                    Device_Detail_Activity.this.mToolbar.setBackgroundColor(Device_Detail_Activity.this.getResources().getColor(R.color.trans_toolbar));
+                    Device_Detail_Activity.this.trans_statusbar(Color.parseColor("#26000000"));
+                    Device_Detail_Activity.this.trans = true;
+                }
+                Device_Detail_Activity.this.isColor = false;
             }
         }
     }
@@ -360,14 +389,14 @@ public class Device_Detail_Activity extends AppCompatActivity {
                 Device_Detail_Activity.this.final_bg = Bitmap.createScaledBitmap(Device_Detail_Activity.this.final_bg, Device_Detail_Activity.this.device_frame.getWidth(), Device_Detail_Activity.this.device_frame.getHeight(), false);
             }
             if (Device_Detail_Activity.this.glare_sel) {
-                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(Device_Detail_Activity.this.cursor.getString(4) + ".png");
+                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(((String) Device_Detail_Activity.this.dbData.get(3)) + ".png");
                 this.glares = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory().getPath() + "/Android/data/de.toastcode.screener/" + Device_Detail_Activity.this.s).getAbsolutePath());
                 this.no_add = BitmapFactory.decodeResource(Device_Detail_Activity.this.getResources(), R.drawable.no_settings);
             } else {
                 this.glares = BitmapFactory.decodeResource(Device_Detail_Activity.this.getResources(), R.drawable.no_settings);
             }
             if (Device_Detail_Activity.this.shadow_sel) {
-                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(Device_Detail_Activity.this.cursor.getString(5) + ".png");
+                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(((String) Device_Detail_Activity.this.dbData.get(4)) + ".png");
                 this.shadows = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory().getPath() + "/Android/data/de.toastcode.screener/" + Device_Detail_Activity.this.s).getAbsolutePath());
                 this.no_add = BitmapFactory.decodeResource(Device_Detail_Activity.this.getResources(), R.drawable.no_settings);
             } else {
@@ -380,11 +409,13 @@ public class Device_Detail_Activity extends AppCompatActivity {
                 this.screen = Device_Detail_Activity.this.rotateScreen(this.screen);
                 Device_Detail_Activity.this.rotate = true;
             }
-            this.resultbitmap = Device_Detail_Activity.this.combineImages(this.glares, this.shadows, this.screen, Device_Detail_Activity.this.device_frame, Device_Detail_Activity.this.final_bg, this.mSelectedColorCal0, true);
+            if (!(this.glares == null || this.shadows == null || this.screen == null || Device_Detail_Activity.this.device_frame == null || Device_Detail_Activity.this.final_bg == null)) {
+                this.resultbitmap = Device_Detail_Activity.this.combineImages(this.glares, this.shadows, this.screen, Device_Detail_Activity.this.device_frame, Device_Detail_Activity.this.final_bg, this.mSelectedColorCal0, true);
+            }
             if (Device_Detail_Activity.this.isLandscape) {
                 if (Device_Detail_Activity.this.title.equals("Nexus 4")) {
                     this.resultbitmap = Device_Detail_Activity.this.rotateLandscape(this.resultbitmap, -90.0f, Device_Detail_Activity.this.n4_yxPosS_normal[0], Device_Detail_Activity.this.n4_yxPosS_normal[1]);
-                } else if (Device_Detail_Activity.this.cursor.getString(2).contains("_2k")) {
+                } else if (((String) Device_Detail_Activity.this.dbData.get(1)).contains("_2k")) {
                     this.resultbitmap = Device_Detail_Activity.this.rotateLandscape(this.resultbitmap, -90.0f, Device_Detail_Activity.this._2k_yxPosS_normal[0], Device_Detail_Activity.this._2k_yxPosS_normal[1]);
                 } else {
                     this.resultbitmap = Device_Detail_Activity.this.rotateLandscape(this.resultbitmap, -90.0f, Device_Detail_Activity.this.yxPosS_normal[0], Device_Detail_Activity.this.yxPosS_normal[1]);
@@ -401,8 +432,6 @@ public class Device_Detail_Activity extends AppCompatActivity {
             if (!Device_Detail_Activity.this.tempPath.equals(BuildConfig.FLAVOR)) {
                 Glide.with(Device_Detail_Activity.this.getApplicationContext()).load(Device_Detail_Activity.this.tempPath).placeholder(imgView.getDrawable()).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imgView);
                 imgView.invalidate();
-                this.glares.recycle();
-                this.shadows.recycle();
                 this.screen = null;
                 this.glares = null;
                 this.shadows = null;
@@ -466,14 +495,14 @@ public class Device_Detail_Activity extends AppCompatActivity {
                 Device_Detail_Activity.this.final_bg = Bitmap.createScaledBitmap(Device_Detail_Activity.this.final_bg, Device_Detail_Activity.this.device_frame.getWidth(), Device_Detail_Activity.this.device_frame.getHeight(), false);
             }
             if (Device_Detail_Activity.this.glare_sel) {
-                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(Device_Detail_Activity.this.cursor.getString(4) + ".png");
+                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(((String) Device_Detail_Activity.this.dbData.get(3)) + ".png");
                 this.glares = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory().getPath() + "/Android/data/de.toastcode.screener/" + Device_Detail_Activity.this.s).getAbsolutePath());
                 this.no_add = BitmapFactory.decodeResource(Device_Detail_Activity.this.getResources(), R.drawable.no_settings);
             } else {
                 this.glares = BitmapFactory.decodeResource(Device_Detail_Activity.this.getResources(), R.drawable.no_settings);
             }
             if (Device_Detail_Activity.this.shadow_sel) {
-                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(Device_Detail_Activity.this.cursor.getString(5) + ".png");
+                Device_Detail_Activity.this.s = Device_Detail_Activity.this.crypy.encrypt(((String) Device_Detail_Activity.this.dbData.get(4)) + ".png");
                 this.shadows = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory().getPath() + "/Android/data/de.toastcode.screener/" + Device_Detail_Activity.this.s).getAbsolutePath());
                 this.no_add = BitmapFactory.decodeResource(Device_Detail_Activity.this.getResources(), R.drawable.no_settings);
             } else {
@@ -486,11 +515,13 @@ public class Device_Detail_Activity extends AppCompatActivity {
                 this.screen = Device_Detail_Activity.this.rotateScreen(this.screen);
                 Device_Detail_Activity.this.rotate = true;
             }
-            this.resultbitmap = Device_Detail_Activity.this.combineImages(this.glares, this.shadows, this.screen, Device_Detail_Activity.this.device_frame, Device_Detail_Activity.this.final_bg, this.mSelectedColorCal0, false);
+            if (!(this.glares == null || this.shadows == null || this.screen == null || Device_Detail_Activity.this.device_frame == null || Device_Detail_Activity.this.final_bg == null)) {
+                this.resultbitmap = Device_Detail_Activity.this.combineImages(this.glares, this.shadows, this.screen, Device_Detail_Activity.this.device_frame, Device_Detail_Activity.this.final_bg, this.mSelectedColorCal0, false);
+            }
             if (Device_Detail_Activity.this.isLandscape) {
                 if (Device_Detail_Activity.this.title.equals("Nexus 4")) {
                     this.resultbitmap = Device_Detail_Activity.this.rotateLandscape(this.resultbitmap, -90.0f, Device_Detail_Activity.this.n4_yxPosS_normal[0], Device_Detail_Activity.this.n4_yxPosS_normal[1]);
-                } else if (Device_Detail_Activity.this.cursor.getString(2).contains("_2k")) {
+                } else if (((String) Device_Detail_Activity.this.dbData.get(1)).contains("_2k")) {
                     this.resultbitmap = Device_Detail_Activity.this.rotateLandscape(this.resultbitmap, -90.0f, Device_Detail_Activity.this._2k_yxPosS_normal[0], Device_Detail_Activity.this._2k_yxPosS_normal[1]);
                 } else {
                     this.resultbitmap = Device_Detail_Activity.this.rotateLandscape(this.resultbitmap, -90.0f, Device_Detail_Activity.this.yxPosS_normal[0], Device_Detail_Activity.this.yxPosS_normal[1]);
@@ -517,7 +548,8 @@ public class Device_Detail_Activity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            intent.putExtra("android.intent.extra.STREAM", Uri.parse("file:///sdcard/Screener/screener_" + date + "(" + time + ")" + ".png"));
+            intent = intent;
+            intent.putExtra("android.intent.extra.STREAM", Device_Detail_Activity.getImageContentUri(Device_Detail_Activity.this, Device_Detail_Activity.this.f));
             Device_Detail_Activity.this.startActivityForResult(Intent.createChooser(intent, Device_Detail_Activity.this.getResources().getString(R.string.share)), 3);
             return null;
         }
@@ -687,27 +719,44 @@ public class Device_Detail_Activity extends AppCompatActivity {
                 this.sql = "SELECT _id, name, image, thumb_image, glare, shadow, unscaled_padding_height, unscaled_padding_width, unscaled_height, unscaled_width, imgbtn_height, imgbtn_width, imgbtn_rotation, rmargin FROM " + this.tablequery + " WHERE thumb_image = '" + this.device + "'";
             }
             this.cursor = this.db.rawQuery(this.sql, null);
+            this.dbData = new ArrayList();
             startManagingCursor(this.cursor);
             if (this.cursor != null) {
                 boolean z;
                 if (this.cursor.moveToFirst()) {
                     do {
+                        this.dbData.add(this.cursor.getString(1));
+                        this.dbData.add(this.cursor.getString(2));
+                        this.dbData.add(this.cursor.getString(3));
+                        this.dbData.add(this.cursor.getString(4));
+                        this.dbData.add(this.cursor.getString(5));
+                        this.dbData.add(this.cursor.getString(6));
+                        this.dbData.add(this.cursor.getString(7));
+                        this.dbData.add(this.cursor.getString(8));
+                        this.dbData.add(this.cursor.getString(9));
+                        this.dbData.add(this.cursor.getString(10));
+                        this.dbData.add(this.cursor.getString(11));
+                        this.dbData.add(this.cursor.getString(12));
+                        this.dbData.add(this.cursor.getString(13));
+                        if (this.isWatch) {
+                            this.dbData.add(this.cursor.getString(14));
+                        }
                     } while (this.cursor.moveToNext());
                 }
                 this.cursor.moveToFirst();
-                this.title = this.cursor.getString(1);
-                this.s = this.crypy.encrypt(this.cursor.getString(2) + ".png");
+                this.title = (String) this.dbData.get(0);
+                this.s = this.crypy.encrypt(((String) this.dbData.get(1)) + ".png");
                 this.device_frame = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory().getPath() + "/Android/data/de.toastcode.screener/" + this.s).getAbsolutePath());
-                this.s = this.crypy.encrypt(this.cursor.getString(3) + ".png");
+                this.s = this.crypy.encrypt(((String) this.dbData.get(2)) + ".png");
                 this.device_frame_thumb = BitmapFactory.decodeFile(new File(Environment.getExternalStorageDirectory().getPath() + "/Android/data/de.toastcode.screener/" + this.s).getAbsolutePath());
                 this.iv_frame.setImageBitmap(this.device_frame_thumb);
-                this.unscaled_padding_height = Integer.parseInt(this.cursor.getString(6));
-                this.unscaled_padding_width = Integer.parseInt(this.cursor.getString(7));
-                this.unscaled_height = Integer.parseInt(this.cursor.getString(8));
-                this.unscaled_width = Integer.parseInt(this.cursor.getString(9));
-                this.rotation = Double.parseDouble(this.cursor.getString(12));
+                this.unscaled_padding_height = Integer.parseInt((String) this.dbData.get(5));
+                this.unscaled_padding_width = Integer.parseInt((String) this.dbData.get(6));
+                this.unscaled_height = Integer.parseInt((String) this.dbData.get(7));
+                this.unscaled_width = Integer.parseInt((String) this.dbData.get(8));
+                this.rotation = Double.parseDouble((String) this.dbData.get(11));
                 if (this.isWatch) {
-                    this.isRoundedWatch = Boolean.parseBoolean(this.cursor.getString(14));
+                    this.isRoundedWatch = Boolean.parseBoolean((String) this.dbData.get(13));
                 }
                 if (this.rotation != 0.0d) {
                     z = true;
@@ -758,7 +807,29 @@ public class Device_Detail_Activity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-        new Async_Screen_priv().execute(new String[0]);
+        if (this.setResume) {
+            new Async_Screen().execute(new String[0]);
+        }
+    }
+
+    protected void onPause() {
+        super.onPause();
+        System.out.println("PAUSE");
+    }
+
+    protected void onStop() {
+        super.onStop();
+        System.out.println("STOP");
+    }
+
+    protected void onUserLeaveHint() {
+        if (this.isHGPressed || this.isScreenPressed) {
+            this.setResume = false;
+        } else {
+            this.setResume = true;
+        }
+        System.out.println("HOME");
+        super.onUserLeaveHint();
     }
 
     public void onClick(View vw) {
@@ -767,7 +838,6 @@ public class Device_Detail_Activity extends AppCompatActivity {
         if (id == R.id.custom_color) {
             int[] parsed_color_arr = new int[]{0};
             int[] mColor = ColorUtils.colorChoice(getBaseContext());
-            this.is_HG_set = false;
             int i2 = parsed_color_arr[0];
             if (!Utils.isTablet(getBaseContext())) {
                 i = 2;
@@ -776,6 +846,7 @@ public class Device_Detail_Activity extends AppCompatActivity {
             colorcalendar.setOnColorSelectedListener(new OnColorSelectedListener() {
                 public void onColorSelected(int color) {
                     Device_Detail_Activity.this.isColor = true;
+                    Device_Detail_Activity.this.is_HG_set = false;
                     if (color == -1118482) {
                         colorcalendar.dismiss();
                         Device_Detail_Activity.this.startActivityForResult(new Intent(Device_Detail_Activity.this.getApplicationContext(), ColorPickerActivity.class), 4);
@@ -785,7 +856,7 @@ public class Device_Detail_Activity extends AppCompatActivity {
                     Device_Detail_Activity.this.getApplicationContext().getSharedPreferences("mcpicker", 0).getString("color", null);
                     Device_Detail_Activity.this.parsed_color = color;
                     colorcalendar.dismiss();
-                    new Async_Screen_priv().execute(new String[0]);
+                    new Async_Screen().execute(new String[0]);
                 }
             });
             colorcalendar.show(getFragmentManager(), "cal");
@@ -852,14 +923,11 @@ public class Device_Detail_Activity extends AppCompatActivity {
     public void choose_screen(View v) {
         if (v.getId() == R.id.chooser) {
             Intent intent = new Intent();
-            if (VERSION.SDK_INT >= 19) {
-                intent.setAction("android.intent.action.OPEN_DOCUMENT");
-            } else {
-                intent.setAction("android.intent.action.GET_CONTENT");
-            }
+            intent.setAction("android.intent.action.GET_CONTENT");
             intent.addCategory("android.intent.category.OPENABLE");
             intent.setType("image/*");
             try {
+                this.isScreenPressed = true;
                 startActivityForResult(intent, 1);
             } catch (ActivityNotFoundException e) {
             }
@@ -895,6 +963,8 @@ public class Device_Detail_Activity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    this.isScreenPressed = false;
+                    new Async_Screen().execute(new String[0]);
                 }
             } else if (requestCode == 2) {
                 DisplayMetrics metrics = new DisplayMetrics();
@@ -955,6 +1025,7 @@ public class Device_Detail_Activity extends AppCompatActivity {
                 this.bg = null;
                 this.final_bg = null;
                 this.parsed_color = 0;
+                this.isSecond = true;
                 try {
                     this.bg = Media.getBitmap(getContentResolver(), this.outputUri);
                     this.final_bg = Media.getBitmap(getContentResolver(), this.outputUri);
@@ -973,10 +1044,15 @@ public class Device_Detail_Activity extends AppCompatActivity {
                 }
                 this.mToolbar.setBackgroundColor(getResources().getColor(R.color.trans_toolbar));
                 this.trans = true;
+                this.isHGPressed = false;
             }
-        } else if (resultCode == 0) {
+            if (this.isSecond) {
+                this.isSecond = false;
+                new Async_Screen().execute(new String[0]);
+            }
+        } else if (resultCode == 0 && !this.setResume) {
+            new Async_Screen().execute(new String[0]);
         }
-        new Async_Screen().execute(new String[0]);
     }
 
     public Bitmap rotateLandscape(Bitmap bitmap, float rotation, int xPos, int yPos) {
@@ -1071,14 +1147,11 @@ public class Device_Detail_Activity extends AppCompatActivity {
 
     private void showCustombg() {
         Intent intent = new Intent();
-        if (VERSION.SDK_INT >= 19) {
-            intent.setAction("android.intent.action.OPEN_DOCUMENT");
-        } else {
-            intent.setAction("android.intent.action.GET_CONTENT");
-        }
+        intent.setAction("android.intent.action.GET_CONTENT");
         intent.addCategory("android.intent.category.OPENABLE");
         intent.setType("image/*");
         this.is_HG_set = true;
+        this.isHGPressed = true;
         try {
             startActivityForResult(intent, 2);
         } catch (ActivityNotFoundException e) {
@@ -1113,50 +1186,68 @@ public class Device_Detail_Activity extends AppCompatActivity {
     }
 
     public void saveImage(File f2, Bitmap bm, boolean temp) {
-        File folder;
-        String fName;
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bm.compress(CompressFormat.PNG, 100, bytes);
-        if (temp) {
-            folder = new File(Environment.getExternalStorageDirectory() + File.separator + "Screener" + File.separator + "temp");
-        } else {
-            folder = new File(Environment.getExternalStorageDirectory() + File.separator + "Screener");
-        }
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
-        String extStorageDirectory = folder.toString();
-        Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-        String date = dateFormat.format(now);
-        String time = timeFormat.format(now);
-        if (temp) {
-            fName = "screener.temp";
-        } else {
-            fName = "screener_" + date + "(" + time + ")" + ".png";
-        }
-        String filepath = extStorageDirectory + File.separator + fName;
-        File file = new File(filepath);
-        try {
-            if (file.exists()) {
-                file.delete();
+        if (bm != null) {
+            File folder;
+            String fName;
+            bm.compress(CompressFormat.PNG, 100, bytes);
+            if (temp) {
+                folder = new File(Environment.getExternalStorageDirectory() + File.separator + "Screener" + File.separator + "temp");
+            } else {
+                folder = new File(Environment.getExternalStorageDirectory() + File.separator + "Screener");
             }
-            file.createNewFile();
-            new FileOutputStream(file).write(bytes.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (temp) {
-            savePreferences("TEMP_PATH", filepath);
-        } else {
-            savePreferences("TEMP_PATH", BuildConfig.FLAVOR);
-        }
-        MediaScannerConnection.scanFile(this, new String[]{file.getPath()}, null, new OnScanCompletedListener() {
-            public void onScanCompleted(String path, Uri uri) {
-                Log.i("ExternalStorage", "Scanned " + path + ":");
-                Log.i("ExternalStorage", "-> uri=" + uri);
+            if (!folder.exists()) {
+                folder.mkdirs();
             }
-        });
+            String extStorageDirectory = folder.toString();
+            Date now = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+            String date = dateFormat.format(now);
+            String time = timeFormat.format(now);
+            if (temp) {
+                fName = "screener.temp";
+            } else {
+                fName = "screener_" + date + "(" + time + ")" + ".png";
+            }
+            String filepath = extStorageDirectory + File.separator + fName;
+            File file = new File(filepath);
+            try {
+                if (file.exists()) {
+                    file.delete();
+                }
+                file.createNewFile();
+                new FileOutputStream(file).write(bytes.toByteArray());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (temp) {
+                savePreferences("TEMP_PATH", filepath);
+            } else {
+                savePreferences("TEMP_PATH", BuildConfig.FLAVOR);
+            }
+            MediaScannerConnection.scanFile(this, new String[]{file.getPath()}, null, new OnScanCompletedListener() {
+                public void onScanCompleted(String path, Uri uri) {
+                    Log.i("ExternalStorage", "Scanned " + path + ":");
+                    Log.i("ExternalStorage", "-> uri=" + uri);
+                }
+            });
+        }
+    }
+
+    public static Uri getImageContentUri(Context context, File imageFile) {
+        String filePath = imageFile.getAbsolutePath();
+        Cursor cursor = context.getContentResolver().query(Media.EXTERNAL_CONTENT_URI, new String[]{"_id"}, "_data=? ", new String[]{filePath}, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex("_id"));
+            cursor.close();
+            return Uri.withAppendedPath(Media.EXTERNAL_CONTENT_URI, BuildConfig.FLAVOR + id);
+        } else if (!imageFile.exists()) {
+            return null;
+        } else {
+            ContentValues values = new ContentValues();
+            values.put("_data", filePath);
+            return context.getContentResolver().insert(Media.EXTERNAL_CONTENT_URI, values);
+        }
     }
 }

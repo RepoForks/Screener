@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
@@ -13,14 +12,17 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Path.Direction;
-import android.graphics.Path.Op;
 import android.graphics.RectF;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.View.BaseSavedState;
 import android.view.View.MeasureSpec;
 import android.view.View.OnAttachStateChangeListener;
 import android.view.animation.Interpolator;
@@ -37,7 +39,7 @@ public class InkPageIndicator extends View implements OnPageChangeListener, OnAt
     private static final float MINIMAL_REVEAL = 1.0E-5f;
     private long animDuration;
     private long animHalfDuration;
-    private final Path combinedUnselectedPath;
+    private Path combinedUnselectedPath;
     float controlX1;
     float controlX2;
     float controlY1;
@@ -234,6 +236,33 @@ public class InkPageIndicator extends View implements OnPageChangeListener, OnAt
         }
     }
 
+    static class SavedState extends BaseSavedState {
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+        int currentPage;
+
+        public SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            this.currentPage = in.readInt();
+        }
+
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeInt(this.currentPage);
+        }
+    }
+
     public InkPageIndicator(Context context) {
         this(context, null, 0);
     }
@@ -333,8 +362,10 @@ public class InkPageIndicator extends View implements OnPageChangeListener, OnAt
         } else {
             this.currentPage = 0;
         }
-        if (this.dotCenterX != null) {
-            this.selectedDotX = this.dotCenterX[this.currentPage];
+        if (this.dotCenterX != null && this.dotCenterX.length > 0) {
+            if (this.moveAnimation == null || !this.moveAnimation.isStarted()) {
+                this.selectedDotX = this.dotCenterX[this.currentPage];
+            }
         }
     }
 
@@ -406,21 +437,21 @@ public class InkPageIndicator extends View implements OnPageChangeListener, OnAt
         }
     }
 
-    @TargetApi(19)
     private void drawUnselected(Canvas canvas) {
         this.combinedUnselectedPath.rewind();
         int page = 0;
         while (page < this.pageCount) {
-            this.combinedUnselectedPath.op(getUnselectedPath(page, this.dotCenterX[page], this.dotCenterX[page == this.pageCount + DEFAULT_SELECTED_COLOUR ? page : page + 1], page == this.pageCount + DEFAULT_SELECTED_COLOUR ? INVALID_FRACTION : this.joiningFractions[page], this.dotRevealFractions[page]), Op.UNION);
+            Path unselectedPath = getUnselectedPath(page, this.dotCenterX[page], this.dotCenterX[page == this.pageCount + DEFAULT_SELECTED_COLOUR ? page : page + 1], page == this.pageCount + DEFAULT_SELECTED_COLOUR ? INVALID_FRACTION : this.joiningFractions[page], this.dotRevealFractions[page]);
+            unselectedPath.addPath(this.combinedUnselectedPath);
+            this.combinedUnselectedPath.addPath(unselectedPath);
             page++;
         }
         if (this.retreatingJoinX1 != INVALID_FRACTION) {
-            this.combinedUnselectedPath.op(getRetreatingJoinPath(), Op.UNION);
+            this.combinedUnselectedPath.addPath(getRetreatingJoinPath());
         }
         canvas.drawPath(this.combinedUnselectedPath, this.unselectedPaint);
     }
 
-    @TargetApi(19)
     private Path getUnselectedPath(int page, float centerX, float nextCenterX, float joiningFraction, float dotRevealFraction) {
         this.unselectedDotPath.rewind();
         if ((joiningFraction == 0.0f || joiningFraction == INVALID_FRACTION) && dotRevealFraction == 0.0f && !(page == this.currentPage && this.selectedDotInPosition)) {
@@ -445,7 +476,7 @@ public class InkPageIndicator extends View implements OnPageChangeListener, OnAt
             this.controlX2 = this.halfDotRadius + centerX;
             this.controlY2 = this.dotBottomY;
             this.unselectedDotLeftPath.cubicTo(this.controlX1, this.controlY1, this.controlX2, this.controlY2, this.endX2, this.endY2);
-            this.unselectedDotPath.op(this.unselectedDotLeftPath, Op.UNION);
+            this.unselectedDotPath.addPath(this.unselectedDotLeftPath);
             this.unselectedDotRightPath.rewind();
             this.unselectedDotRightPath.moveTo(nextCenterX, this.dotBottomY);
             this.rectF.set(nextCenterX - this.dotRadius, this.dotTopY, this.dotRadius + nextCenterX, this.dotBottomY);
@@ -464,7 +495,7 @@ public class InkPageIndicator extends View implements OnPageChangeListener, OnAt
             this.controlX2 = this.endX2 - this.halfDotRadius;
             this.controlY2 = this.dotBottomY;
             this.unselectedDotRightPath.cubicTo(this.controlX1, this.controlY1, this.controlX2, this.controlY2, this.endX2, this.endY2);
-            this.unselectedDotPath.op(this.unselectedDotRightPath, Op.UNION);
+            this.unselectedDotPath.addPath(this.unselectedDotRightPath);
         }
         if (joiningFraction > 0.5f && joiningFraction < 1.0f && this.retreatingJoinX1 == INVALID_FRACTION) {
             float adjustedFraction = (joiningFraction - 0.2f) * 1.25f;
@@ -584,8 +615,13 @@ public class InkPageIndicator extends View implements OnPageChangeListener, OnAt
 
     private void setJoiningFraction(int leftDot, float fraction) {
         if (leftDot < this.joiningFractions.length) {
-            this.joiningFractions[leftDot] = fraction;
-            ViewCompat.postInvalidateOnAnimation(this);
+            if (leftDot == 1) {
+                this.joiningFractions[leftDot] = fraction;
+                ViewCompat.postInvalidateOnAnimation(this);
+            } else {
+                this.joiningFractions[leftDot] = fraction;
+                ViewCompat.postInvalidateOnAnimation(this);
+            }
         }
     }
 
@@ -595,7 +631,9 @@ public class InkPageIndicator extends View implements OnPageChangeListener, OnAt
     }
 
     private void setDotRevealFraction(int dot, float fraction) {
-        this.dotRevealFractions[dot] = fraction;
+        if (dot < this.dotRevealFractions.length) {
+            this.dotRevealFractions[dot] = fraction;
+        }
         ViewCompat.postInvalidateOnAnimation(this);
     }
 
@@ -603,5 +641,18 @@ public class InkPageIndicator extends View implements OnPageChangeListener, OnAt
         if (this.joiningAnimationSet != null && this.joiningAnimationSet.isRunning()) {
             this.joiningAnimationSet.cancel();
         }
+    }
+
+    public void onRestoreInstanceState(Parcelable state) {
+        SavedState savedState = (SavedState) state;
+        super.onRestoreInstanceState(savedState.getSuperState());
+        this.currentPage = savedState.currentPage;
+        requestLayout();
+    }
+
+    public Parcelable onSaveInstanceState() {
+        SavedState savedState = new SavedState(super.onSaveInstanceState());
+        savedState.currentPage = this.currentPage;
+        return savedState;
     }
 }

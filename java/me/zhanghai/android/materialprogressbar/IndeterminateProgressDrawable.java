@@ -83,20 +83,12 @@ public class IndeterminateProgressDrawable extends IndeterminateProgressDrawable
         return super.getUseIntrinsicPadding();
     }
 
-    public /* bridge */ /* synthetic */ boolean isAutoMirrored() {
-        return super.isAutoMirrored();
-    }
-
     public /* bridge */ /* synthetic */ boolean isRunning() {
         return super.isRunning();
     }
 
     public /* bridge */ /* synthetic */ void setAlpha(int i) {
         super.setAlpha(i);
-    }
-
-    public /* bridge */ /* synthetic */ void setAutoMirrored(boolean z) {
-        super.setAutoMirrored(z);
     }
 
     public /* bridge */ /* synthetic */ void setColorFilter(@Nullable ColorFilter colorFilter) {

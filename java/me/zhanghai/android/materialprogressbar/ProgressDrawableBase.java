@@ -12,12 +12,10 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import me.zhanghai.android.materialprogressbar.internal.ThemeUtils;
 
 abstract class ProgressDrawableBase extends Drawable implements IntrinsicPaddingDrawable, TintableDrawable {
     protected int mAlpha = 255;
-    protected boolean mAutoMirrored;
     protected ColorFilter mColorFilter;
     private Paint mPaint;
     protected PorterDuffColorFilter mTintFilter;
@@ -30,7 +28,6 @@ abstract class ProgressDrawableBase extends Drawable implements IntrinsicPadding
     protected abstract void onPreparePaint(Paint paint);
 
     public ProgressDrawableBase(Context context) {
-        setAutoMirrored(true);
         setTint(ThemeUtils.getColorFromAttrRes(R.attr.colorControlActivated, context));
     }
 
@@ -41,17 +38,6 @@ abstract class ProgressDrawableBase extends Drawable implements IntrinsicPadding
     public void setUseIntrinsicPadding(boolean useIntrinsicPadding) {
         if (this.mUseIntrinsicPadding != useIntrinsicPadding) {
             this.mUseIntrinsicPadding = useIntrinsicPadding;
-            invalidateSelf();
-        }
-    }
-
-    public boolean isAutoMirrored() {
-        return this.mAutoMirrored;
-    }
-
-    public void setAutoMirrored(boolean mirrored) {
-        if (this.mAutoMirrored != mirrored) {
-            this.mAutoMirrored = mirrored;
             invalidateSelf();
         }
     }
@@ -116,19 +102,8 @@ abstract class ProgressDrawableBase extends Drawable implements IntrinsicPadding
             this.mPaint.setColorFilter(this.mColorFilter != null ? this.mColorFilter : this.mTintFilter);
             int saveCount = canvas.save();
             canvas.translate((float) bounds.left, (float) bounds.top);
-            if (needMirroring()) {
-                canvas.translate((float) bounds.width(), 0.0f);
-                canvas.scale(-1.0f, 1.0f);
-            }
             onDraw(canvas, bounds.width(), bounds.height(), this.mPaint);
             canvas.restoreToCount(saveCount);
         }
-    }
-
-    private boolean needMirroring() {
-        if (this.mAutoMirrored && DrawableCompat.getLayoutDirection(this) == 1) {
-            return true;
-        }
-        return false;
     }
 }

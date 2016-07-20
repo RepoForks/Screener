@@ -536,12 +536,12 @@ public class Shell {
     }
 
     public synchronized boolean isSELinuxEnforcing() {
+        InputStream is;
         if (this.isSELinuxEnforcing == null) {
             Boolean enforcing = null;
             if (VERSION.SDK_INT >= 17) {
                 boolean z;
                 if (new File("/sys/fs/selinux/enforce").exists()) {
-                    InputStream is;
                     try {
                         is = new FileInputStream("/sys/fs/selinux/enforce");
                         if (is.read() == 49) {

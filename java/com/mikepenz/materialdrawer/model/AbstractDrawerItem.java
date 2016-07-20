@@ -126,6 +126,10 @@ public abstract class AbstractDrawerItem<T, VH extends ViewHolder> implements ID
         return this.mExpanded;
     }
 
+    public boolean isAutoExpanding() {
+        return true;
+    }
+
     public View generateView(Context ctx) {
         VH viewHolder = getFactory().create(LayoutInflater.from(ctx).inflate(getLayoutRes(), null, false));
         bindView(viewHolder);

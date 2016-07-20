@@ -20,7 +20,7 @@ public class ClickListenerHelper<Item extends IItem> {
     public void listen(final ViewHolder viewHolder, View view, final OnClickListener<Item> onClickListener) {
         view.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View v) {
-                int pos = viewHolder.getAdapterPosition();
+                int pos = ClickListenerHelper.this.mFastAdapter.getHolderAdapterPosition(viewHolder);
                 if (pos != -1) {
                     onClickListener.onClick(v, pos, ClickListenerHelper.this.mFastAdapter.getItem(pos));
                 }
@@ -31,7 +31,7 @@ public class ClickListenerHelper<Item extends IItem> {
     public void listen(final ViewHolder viewHolder, @IdRes int viewId, final OnClickListener<Item> onClickListener) {
         viewHolder.itemView.findViewById(viewId).setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View v) {
-                int pos = viewHolder.getAdapterPosition();
+                int pos = ClickListenerHelper.this.mFastAdapter.getHolderAdapterPosition(viewHolder);
                 if (pos != -1) {
                     onClickListener.onClick(v, pos, ClickListenerHelper.this.mFastAdapter.getItem(pos));
                 }

@@ -75,13 +75,15 @@ public class MaterialProgressBar extends ProgressBar {
         switch (this.mProgressStyle) {
             case PROGRESS_STYLE_CIRCULAR /*0*/:
                 if (isIndeterminate() && !setBothDrawables) {
-                    setIndeterminateDrawable(new IndeterminateProgressDrawable(context));
-                    break;
+                    if (!isInEditMode()) {
+                        setIndeterminateDrawable(new IndeterminateProgressDrawable(context));
+                        break;
+                    }
                 }
                 throw new UnsupportedOperationException("Determinate circular drawable is not yet supported");
                 break;
             case PROGRESS_STYLE_HORIZONTAL /*1*/:
-                if (isIndeterminate() || setBothDrawables) {
+                if ((isIndeterminate() || setBothDrawables) && !isInEditMode()) {
                     setIndeterminateDrawable(new IndeterminateHorizontalProgressDrawable(context));
                 }
                 if (!isIndeterminate() || setBothDrawables) {
@@ -93,6 +95,17 @@ public class MaterialProgressBar extends ProgressBar {
         }
         setUseIntrinsicPadding(useIntrinsicPadding);
         setShowTrack(showTrack);
+    }
+
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        fixCanvasScalingWhenHardwareAccelerated();
+    }
+
+    private void fixCanvasScalingWhenHardwareAccelerated() {
+        if (VERSION.SDK_INT < 18 && isHardwareAccelerated() && getLayerType() != PROGRESS_STYLE_HORIZONTAL) {
+            setLayerType(PROGRESS_STYLE_HORIZONTAL, null);
+        }
     }
 
     public int getProgressStyle() {
@@ -115,9 +128,11 @@ public class MaterialProgressBar extends ProgressBar {
         Drawable drawable = getDrawable();
         if (drawable instanceof IntrinsicPaddingDrawable) {
             ((IntrinsicPaddingDrawable) drawable).setUseIntrinsicPadding(useIntrinsicPadding);
-            return;
         }
-        throw new IllegalStateException("Drawable does not implement IntrinsicPaddingDrawable");
+        Drawable indeterminateDrawable = getIndeterminateDrawable();
+        if (indeterminateDrawable instanceof IntrinsicPaddingDrawable) {
+            ((IntrinsicPaddingDrawable) indeterminateDrawable).setUseIntrinsicPadding(useIntrinsicPadding);
+        }
     }
 
     public boolean getShowTrack() {
@@ -132,8 +147,10 @@ public class MaterialProgressBar extends ProgressBar {
         Drawable drawable = getDrawable();
         if (drawable instanceof ShowTrackDrawable) {
             ((ShowTrackDrawable) drawable).setShowTrack(showTrack);
-        } else if (showTrack) {
-            throw new IllegalStateException("Drawable does not implement ShowTrackDrawable");
+        }
+        Drawable indeterminateDrawable = getIndeterminateDrawable();
+        if (indeterminateDrawable instanceof ShowTrackDrawable) {
+            ((ShowTrackDrawable) indeterminateDrawable).setShowTrack(showTrack);
         }
     }
 
@@ -203,7 +220,7 @@ public class MaterialProgressBar extends ProgressBar {
                 if (drawable instanceof TintableDrawable) {
                     ((TintableDrawable) drawable).setTintList(tint.mTintList);
                 } else {
-                    Log.w(TAG, "drawable did not implement TintableDrawable, it won't be tinted below Lollipop");
+                    Log.w(TAG, "Drawable did not implement TintableDrawable, it won't be tinted below Lollipop");
                     if (VERSION.SDK_INT >= 21) {
                         drawable.setTintList(tint.mTintList);
                     }
@@ -213,7 +230,7 @@ public class MaterialProgressBar extends ProgressBar {
                 if (drawable instanceof TintableDrawable) {
                     ((TintableDrawable) drawable).setTintMode(tint.mTintMode);
                 } else {
-                    Log.w(TAG, "drawable did not implement TintableDrawable, it won't be tinted below Lollipop");
+                    Log.w(TAG, "Drawable did not implement TintableDrawable, it won't be tinted below Lollipop");
                     if (VERSION.SDK_INT >= 21) {
                         drawable.setTintMode(tint.mTintMode);
                     }

@@ -9,14 +9,14 @@ public final class SendException extends Exception {
     public static final int ERROR_TOO_MANY_MESSAGES = 4;
     public static final int ERROR_TTL_EXCEEDED = 3;
     public static final int ERROR_UNKNOWN = 0;
-    private final int zzKa;
+    private final int zzbym;
 
     SendException(String str) {
         super(str);
-        this.zzKa = zziD(str);
+        this.zzbym = zzsk(str);
     }
 
-    private int zziD(String str) {
+    private int zzsk(String str) {
         if (str == null) {
             return 0;
         }
@@ -70,6 +70,6 @@ public final class SendException extends Exception {
     }
 
     public int getErrorCode() {
-        return this.zzKa;
+        return this.zzbym;
     }
 }

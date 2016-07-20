@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import com.afollestad.materialdialogs.internal.MDTintHelper;
+import com.afollestad.materialdialogs.util.DialogUtils;
 import me.zhanghai.android.materialprogressbar.R;
 
 class DefaultAdapter extends BaseAdapter {
@@ -64,10 +65,12 @@ class DefaultAdapter extends BaseAdapter {
         if (view == null) {
             view = LayoutInflater.from(this.dialog.getContext()).inflate(this.layout, parent, false);
         }
+        boolean disabled = DialogUtils.isIn(Integer.valueOf(index), this.dialog.mBuilder.disabledIndices);
         TextView tv = (TextView) view.findViewById(R.id.title);
         boolean selected;
         switch (AnonymousClass1.$SwitchMap$com$afollestad$materialdialogs$MaterialDialog$ListType[this.dialog.listType.ordinal()]) {
             case R.styleable.View_android_focusable /*1*/:
+                boolean z;
                 RadioButton radio = (RadioButton) view.findViewById(R.id.control);
                 if (this.dialog.mBuilder.selectedIndex == index) {
                     selected = true;
@@ -76,12 +79,19 @@ class DefaultAdapter extends BaseAdapter {
                 }
                 MDTintHelper.setTint(radio, this.dialog.mBuilder.widgetColor);
                 radio.setChecked(selected);
+                if (disabled) {
+                    z = false;
+                } else {
+                    z = true;
+                }
+                radio.setEnabled(z);
                 break;
             case R.styleable.View_paddingStart /*2*/:
                 CheckBox checkbox = (CheckBox) view.findViewById(R.id.control);
                 selected = this.dialog.selectedIndicesList.contains(Integer.valueOf(index));
                 MDTintHelper.setTint(checkbox, this.dialog.mBuilder.widgetColor);
                 checkbox.setChecked(selected);
+                checkbox.setEnabled(!disabled);
                 break;
         }
         tv.setText(this.dialog.mBuilder.items[index]);

@@ -27,7 +27,7 @@ public class License_Activity extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String versionName = BuildConfig.VERSION_NAME;
-        getSupportFragmentManager().beginTransaction().replace(R.id.license_container, new LibsBuilder().withFields(string.class.getFields()).withAboutIconShown(true).withAboutAppName("Screener").withAboutDescription("Version " + versionName + " / " + Integer.toString(14)).withVersionShown(true).supportFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.license_container, new LibsBuilder().withFields(string.class.getFields()).withAboutIconShown(true).withAboutAppName("Screener").withAboutDescription("Version " + versionName + " / " + Integer.toString(15)).withVersionShown(true).supportFragment()).commit();
     }
 
     public void onBackPressed() {

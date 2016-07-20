@@ -8,11 +8,11 @@ public final class R {
     }
 
     public static final class drawable {
-        public static final int ic_launcher = 2130837716;
+        public static final int ic_launcher = 2130837674;
     }
 
     public static final class id {
-        public static final int action_settings = 2131689823;
+        public static final int action_settings = 2131689818;
     }
 
     public static final class menu {
@@ -24,9 +24,9 @@ public final class R {
     }
 
     public static final class string {
-        public static final int action_settings = 2131230780;
-        public static final int app_name = 2131230872;
-        public static final int hello_world = 2131231050;
+        public static final int action_settings = 2131230750;
+        public static final int app_name = 2131230842;
+        public static final int hello_world = 2131231025;
     }
 
     public static final class style {

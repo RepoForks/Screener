@@ -7,60 +7,60 @@ import me.zhanghai.android.materialprogressbar.R;
 
 public class zza implements Creator<UserProfileChangeRequest> {
     static void zza(UserProfileChangeRequest userProfileChangeRequest, Parcel parcel, int i) {
-        int zzar = zzb.zzar(parcel);
+        int zzcm = zzb.zzcm(parcel);
         zzb.zzc(parcel, 1, userProfileChangeRequest.mVersionCode);
         zzb.zza(parcel, 2, userProfileChangeRequest.getDisplayName(), false);
-        zzb.zza(parcel, 3, userProfileChangeRequest.zzOo(), false);
-        zzb.zza(parcel, 4, userProfileChangeRequest.zzOp());
-        zzb.zza(parcel, 5, userProfileChangeRequest.zzOq());
-        zzb.zzJ(parcel, zzar);
+        zzb.zza(parcel, 3, userProfileChangeRequest.zzckv(), false);
+        zzb.zza(parcel, 4, userProfileChangeRequest.zzckw());
+        zzb.zza(parcel, 5, userProfileChangeRequest.zzckx());
+        zzb.zzaj(parcel, zzcm);
     }
 
     public /* synthetic */ Object createFromParcel(Parcel parcel) {
-        return zzjk(parcel);
+        return zzup(parcel);
     }
 
     public /* synthetic */ Object[] newArray(int i) {
-        return zznk(i);
+        return zzacw(i);
     }
 
-    public UserProfileChangeRequest zzjk(Parcel parcel) {
+    public UserProfileChangeRequest[] zzacw(int i) {
+        return new UserProfileChangeRequest[i];
+    }
+
+    public UserProfileChangeRequest zzup(Parcel parcel) {
         String str = null;
         boolean z = false;
-        int zzaq = com.google.android.gms.common.internal.safeparcel.zza.zzaq(parcel);
+        int zzcl = com.google.android.gms.common.internal.safeparcel.zza.zzcl(parcel);
         boolean z2 = false;
         String str2 = null;
         int i = 0;
-        while (parcel.dataPosition() < zzaq) {
-            int zzap = com.google.android.gms.common.internal.safeparcel.zza.zzap(parcel);
-            switch (com.google.android.gms.common.internal.safeparcel.zza.zzcj(zzap)) {
+        while (parcel.dataPosition() < zzcl) {
+            int zzck = com.google.android.gms.common.internal.safeparcel.zza.zzck(parcel);
+            switch (com.google.android.gms.common.internal.safeparcel.zza.zzgi(zzck)) {
                 case R.styleable.View_android_focusable /*1*/:
-                    i = com.google.android.gms.common.internal.safeparcel.zza.zzg(parcel, zzap);
+                    i = com.google.android.gms.common.internal.safeparcel.zza.zzg(parcel, zzck);
                     break;
                 case R.styleable.View_paddingStart /*2*/:
-                    str2 = com.google.android.gms.common.internal.safeparcel.zza.zzq(parcel, zzap);
+                    str2 = com.google.android.gms.common.internal.safeparcel.zza.zzq(parcel, zzck);
                     break;
                 case R.styleable.View_paddingEnd /*3*/:
-                    str = com.google.android.gms.common.internal.safeparcel.zza.zzq(parcel, zzap);
+                    str = com.google.android.gms.common.internal.safeparcel.zza.zzq(parcel, zzck);
                     break;
                 case R.styleable.View_theme /*4*/:
-                    z2 = com.google.android.gms.common.internal.safeparcel.zza.zzc(parcel, zzap);
+                    z2 = com.google.android.gms.common.internal.safeparcel.zza.zzc(parcel, zzck);
                     break;
                 case R.styleable.Toolbar_contentInsetStart /*5*/:
-                    z = com.google.android.gms.common.internal.safeparcel.zza.zzc(parcel, zzap);
+                    z = com.google.android.gms.common.internal.safeparcel.zza.zzc(parcel, zzck);
                     break;
                 default:
-                    com.google.android.gms.common.internal.safeparcel.zza.zzb(parcel, zzap);
+                    com.google.android.gms.common.internal.safeparcel.zza.zzb(parcel, zzck);
                     break;
             }
         }
-        if (parcel.dataPosition() == zzaq) {
+        if (parcel.dataPosition() == zzcl) {
             return new UserProfileChangeRequest(i, str2, str, z2, z);
         }
-        throw new com.google.android.gms.common.internal.safeparcel.zza.zza("Overread allowed size end=" + zzaq, parcel);
-    }
-
-    public UserProfileChangeRequest[] zznk(int i) {
-        return new UserProfileChangeRequest[i];
+        throw new com.google.android.gms.common.internal.safeparcel.zza.zza("Overread allowed size end=" + zzcl, parcel);
     }
 }

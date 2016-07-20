@@ -91,7 +91,7 @@ public class Download_Activity extends AppCompatActivity {
                             break;
                         }
                     }
-                    if (isCancelled()) {
+                    if (isCancelled() || devices == null) {
                         break;
                     }
                 } catch (Exception e) {

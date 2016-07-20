@@ -1151,6 +1151,7 @@ public class VerticalViewPager extends ViewGroup {
 
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int i;
+        LayoutParams lp;
         setMeasuredDimension(getDefaultSize(SCROLL_STATE_IDLE, widthMeasureSpec), getDefaultSize(SCROLL_STATE_IDLE, heightMeasureSpec));
         int measuredHeight = getMeasuredHeight();
         this.mGutterSize = Math.min(measuredHeight / 10, this.mDefaultGutterSize);
@@ -1158,7 +1159,6 @@ public class VerticalViewPager extends ViewGroup {
         int childHeightSize = (measuredHeight - getPaddingTop()) - getPaddingBottom();
         int size = getChildCount();
         for (i = SCROLL_STATE_IDLE; i < size; i += SCROLL_STATE_DRAGGING) {
-            LayoutParams lp;
             View child = getChildAt(i);
             if (child.getVisibility() != 8) {
                 lp = (LayoutParams) child.getLayoutParams();
@@ -1242,8 +1242,6 @@ public class VerticalViewPager extends ViewGroup {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int i;
         LayoutParams lp;
-        int childLeft;
-        int childTop;
         int count = getChildCount();
         int width = r - l;
         int height = b - t;
@@ -1254,6 +1252,8 @@ public class VerticalViewPager extends ViewGroup {
         int scrollY = getScrollY();
         int decorCount = SCROLL_STATE_IDLE;
         for (i = SCROLL_STATE_IDLE; i < count; i += SCROLL_STATE_DRAGGING) {
+            int childLeft;
+            int childTop;
             View child = getChildAt(i);
             if (child.getVisibility() != 8) {
                 lp = (LayoutParams) child.getLayoutParams();
@@ -1982,7 +1982,7 @@ public class VerticalViewPager extends ViewGroup {
             return DEBUG;
         }
         switch (event.getKeyCode()) {
-            case R.styleable.AppCompatTheme_actionBarWidgetTheme /*21*/:
+            case R.styleable.Toolbar_buttonGravity /*21*/:
                 return arrowScroll(17);
             case R.styleable.Toolbar_collapseIcon /*22*/:
                 return arrowScroll(66);

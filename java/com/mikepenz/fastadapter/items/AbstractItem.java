@@ -115,7 +115,7 @@ public abstract class AbstractItem<Item extends AbstractItem<?, ?>, VH extends V
     }
 
     public View generateView(Context ctx) {
-        ViewHolder viewHolder = getViewHolder(LayoutInflater.from(ctx).inflate(getLayoutRes(), null, false));
+        VH viewHolder = getViewHolder(LayoutInflater.from(ctx).inflate(getLayoutRes(), null, false));
         bindView(viewHolder);
         return viewHolder.itemView;
     }

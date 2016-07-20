@@ -60,6 +60,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Selectable;
+import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 import com.mikepenz.materialize.Materialize;
 import com.mikepenz.materialize.MaterializeBuilder;
 import com.mikepenz.materialize.util.UIUtils;
@@ -832,7 +833,8 @@ public class DrawerBuilder {
                 paddingTop = UIUtils.getStatusBarHeight(this.mActivity);
             }
             int paddingBottom = 0;
-            if ((this.mTranslucentNavigationBar || this.mFullscreen) && VERSION.SDK_INT >= 21 && !this.mSystemUIHidden && this.mActivity.getResources().getConfiguration().orientation == 1) {
+            int orientation = this.mActivity.getResources().getConfiguration().orientation;
+            if ((this.mTranslucentNavigationBar || this.mFullscreen) && VERSION.SDK_INT >= 21 && !this.mSystemUIHidden && (orientation == 1 || (orientation == 2 && DrawerUIUtils.isSystemBarOnBottom(this.mActivity)))) {
                 paddingBottom = UIUtils.getNavigationBarHeight(this.mActivity);
             }
             this.mRecyclerView.setPadding(0, paddingTop, 0, paddingBottom);
@@ -945,6 +947,10 @@ public class DrawerBuilder {
             }
             this.mOnDrawerItemClickListener.onItemClick(null, selection, getDrawerItem(selection));
         }
+    }
+
+    public void reset() {
+        this.mUsed = false;
     }
 
     protected void closeDrawerDelayed() {

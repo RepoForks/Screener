@@ -2,13 +2,14 @@ package com.mikepenz.materialdrawer.model;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 import com.mikepenz.materialdrawer.holder.ColorHolder;
+import com.mikepenz.materialdrawer.holder.ImageHolder;
 import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
-import com.mikepenz.materialize.holder.ImageHolder;
 import com.mikepenz.materialize.util.UIUtils;
 
 public abstract class BasePrimaryDrawerItem<T, VH extends BaseViewHolder> extends BaseDrawerItem<T, VH> {
@@ -62,7 +63,12 @@ public abstract class BasePrimaryDrawerItem<T, VH extends BaseViewHolder> extend
             viewHolder.name.setTypeface(getTypeface());
             viewHolder.description.setTypeface(getTypeface());
         }
-        ImageHolder.applyMultiIconTo(com.mikepenz.materialdrawer.holder.ImageHolder.decideIcon(getIcon(), ctx, iconColor, isIconTinted(), 1), iconColor, com.mikepenz.materialdrawer.holder.ImageHolder.decideIcon(getSelectedIcon(), ctx, selectedIconColor, isIconTinted(), 1), selectedIconColor, isIconTinted(), viewHolder.icon);
+        Drawable icon = ImageHolder.decideIcon(getIcon(), ctx, iconColor, isIconTinted(), 1);
+        if (icon != null) {
+            com.mikepenz.materialize.holder.ImageHolder.applyMultiIconTo(icon, iconColor, ImageHolder.decideIcon(getSelectedIcon(), ctx, selectedIconColor, isIconTinted(), 1), selectedIconColor, isIconTinted(), viewHolder.icon);
+        } else {
+            ImageHolder.applyDecidedIconOrSetGone(getIcon(), viewHolder.icon, iconColor, isIconTinted(), 1);
+        }
         DrawerUIUtils.setDrawerVerticalPadding(viewHolder.view, this.level);
     }
 }

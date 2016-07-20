@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.Size;
-import com.google.android.gms.common.internal.zzaa;
+import com.google.android.gms.common.internal.zzab;
 import com.google.android.gms.measurement.internal.zzx;
 
 public final class FirebaseAnalytics {
-    private final zzx zzbbl;
+    private final zzx aja;
 
     public static class Event {
         public static final String ADD_PAYMENT_INFO = "add_payment_info";
@@ -89,35 +89,35 @@ public final class FirebaseAnalytics {
     }
 
     public FirebaseAnalytics(zzx com_google_android_gms_measurement_internal_zzx) {
-        zzaa.zzz(com_google_android_gms_measurement_internal_zzx);
-        this.zzbbl = com_google_android_gms_measurement_internal_zzx;
+        zzab.zzaa(com_google_android_gms_measurement_internal_zzx);
+        this.aja = com_google_android_gms_measurement_internal_zzx;
     }
 
     public static FirebaseAnalytics getInstance(Context context) {
-        return zzx.zzbd(context).zzbeP;
+        return zzx.zzdo(context).amE;
     }
 
     public void logEvent(@NonNull @Size(max = 32, min = 1) String str, Bundle bundle) {
-        this.zzbbl.zzGa().logEvent(str, bundle);
+        this.aja.zzbun().logEvent(str, bundle);
     }
 
     public void setAnalyticsCollectionEnabled(boolean z) {
-        this.zzbbl.zzGa().setMeasurementEnabled(z);
+        this.aja.zzbun().setMeasurementEnabled(z);
     }
 
     public void setMinimumSessionDuration(long j) {
-        this.zzbbl.zzGa().setMinimumSessionDuration(j);
+        this.aja.zzbun().setMinimumSessionDuration(j);
     }
 
     public void setSessionTimeoutDuration(long j) {
-        this.zzbbl.zzGa().setSessionTimeoutDuration(j);
+        this.aja.zzbun().setSessionTimeoutDuration(j);
     }
 
     public void setUserId(String str) {
-        this.zzbbl.zzGa().setUserId(str);
+        this.aja.zzbun().setUserId(str);
     }
 
     public void setUserProperty(@NonNull @Size(max = 24, min = 1) String str, @Size(max = 36) @Nullable String str2) {
-        this.zzbbl.zzGa().setUserProperty(str, str2);
+        this.aja.zzbun().setUserProperty(str, str2);
     }
 }

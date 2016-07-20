@@ -24,7 +24,6 @@ public class ImageUtils {
     }
 
     public Bitmap getCompressedBitmap(String imagePath) {
-        ExifInterface exifInterface;
         IOException e;
         OutputStream out;
         byte[] byteArray;
@@ -74,9 +73,10 @@ public class ImageUtils {
         canvas.setMatrix(scaleMatrix);
         canvas.drawBitmap(bmp, middleX - ((float) (bmp.getWidth() / 2)), middleY - ((float) (bmp.getHeight() / 2)), new Paint(2));
         try {
-            ExifInterface exifInterface2 = new ExifInterface(imagePath);
+            ExifInterface exifInterface = new ExifInterface(imagePath);
+            ExifInterface exifInterface2;
             try {
-                int orientation = exifInterface2.getAttributeInt("Orientation", 0);
+                int orientation = exifInterface.getAttributeInt("Orientation", 0);
                 Matrix matrix = new Matrix();
                 if (orientation == 6) {
                     matrix.postRotate(90.0f);
@@ -86,10 +86,10 @@ public class ImageUtils {
                     matrix.postRotate(270.0f);
                 }
                 scaledBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
-                exifInterface = exifInterface2;
+                exifInterface2 = exifInterface;
             } catch (IOException e2) {
                 e = e2;
-                exifInterface = exifInterface2;
+                exifInterface2 = exifInterface;
                 e.printStackTrace();
                 out = new ByteArrayOutputStream();
                 scaledBitmap.compress(CompressFormat.JPEG, 85, out);

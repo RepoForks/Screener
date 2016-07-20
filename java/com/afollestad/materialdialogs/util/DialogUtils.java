@@ -10,8 +10,10 @@ import android.os.Build.VERSION;
 import android.os.IBinder;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.AttrRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -37,14 +39,22 @@ public class DialogUtils {
         }
     }
 
-    public static int adjustAlpha(int color, float factor) {
+    @ColorInt
+    public static int getDisabledColor(Context context) {
+        return adjustAlpha(isColorDark(resolveColor(context, 16842806)) ? -16777216 : -1, 0.3f);
+    }
+
+    @ColorInt
+    public static int adjustAlpha(@ColorInt int color, float factor) {
         return Color.argb(Math.round(((float) Color.alpha(color)) * factor), Color.red(color), Color.green(color), Color.blue(color));
     }
 
+    @ColorInt
     public static int resolveColor(Context context, @AttrRes int attr) {
         return resolveColor(context, attr, 0);
     }
 
+    @ColorInt
     public static int resolveColor(Context context, @AttrRes int attr, int fallback) {
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{attr});
         try {
@@ -91,6 +101,7 @@ public class DialogUtils {
         return context.getColorStateList(colorId);
     }
 
+    @ColorInt
     public static int getColor(Context context, @ColorRes int colorId) {
         if (VERSION.SDK_INT <= 22) {
             return context.getResources().getColor(colorId);
@@ -200,7 +211,7 @@ public class DialogUtils {
         return resolveBoolean(context, attr, false);
     }
 
-    public static boolean isColorDark(int color) {
+    public static boolean isColorDark(@ColorInt int color) {
         return 1.0d - ((((0.299d * ((double) Color.red(color))) + (0.587d * ((double) Color.green(color)))) + (0.114d * ((double) Color.blue(color)))) / 255.0d) >= 0.5d;
     }
 
@@ -263,5 +274,17 @@ public class DialogUtils {
         }
         ta.recycle();
         return colors;
+    }
+
+    public static <T> boolean isIn(@NonNull T find, @Nullable T[] ary) {
+        if (ary == null || ary.length == 0) {
+            return false;
+        }
+        for (T item : ary) {
+            if (item.equals(find)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

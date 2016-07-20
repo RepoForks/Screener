@@ -257,7 +257,7 @@ public class FastAdapter<Item extends IItem> extends Adapter<ViewHolder> {
                         if (!(consumed || FastAdapter.this.mOnPreClickListener == null)) {
                             consumed = FastAdapter.this.mOnPreClickListener.onClick(v, relativeInfo.adapter, item, pos);
                         }
-                        if (!(consumed || !(item instanceof IExpandable) || ((IExpandable) item).getSubItems() == null)) {
+                        if (!consumed && (item instanceof IExpandable) && ((IExpandable) item).isAutoExpanding() && ((IExpandable) item).getSubItems() != null) {
                             FastAdapter.this.toggleExpandable(pos);
                         }
                         if (FastAdapter.this.mOnlyOneExpandedItem) {

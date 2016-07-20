@@ -16,8 +16,8 @@
     <string name="abc_searchview_description_search">ਖੋਜੋ</string>
     <string name="abc_searchview_description_submit">ਸਵਾਲ ਪ੍ਰਸਤੁਤ ਕਰੋ</string>
     <string name="abc_searchview_description_voice">ਵੌਇਸ ਖੋਜ</string>
-    <string name="abc_shareactionprovider_share_with">ਇਸ ਨਾਲ ਸ਼ੇਅਰ ਕਰੋ</string>
-    <string name="abc_shareactionprovider_share_with_application">%s ਨਾਲ ਸ਼ੇਅਰ ਕਰੋ</string>
+    <string name="abc_shareactionprovider_share_with">ਇਸ ਨਾਲ ਸਾਂਝਾ ਕਰੋ</string>
+    <string name="abc_shareactionprovider_share_with_application">%s ਨਾਲ ਸਾਂਝਾ ਕਰੋ</string>
     <string name="abc_toolbar_collapse_description">ਨਸ਼ਟ ਕਰੋ</string>
     <string name="status_bar_notification_info_overflow">999+</string>
 </resources>

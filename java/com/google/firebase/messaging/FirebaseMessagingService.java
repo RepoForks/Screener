@@ -13,7 +13,17 @@ import java.util.Iterator;
 import me.zhanghai.android.materialprogressbar.R;
 
 public class FirebaseMessagingService extends zzb {
-    private void zzD(Intent intent) {
+    static void zzab(Bundle bundle) {
+        Iterator it = bundle.keySet().iterator();
+        while (it.hasNext()) {
+            String str = (String) it.next();
+            if (str != null && str.startsWith("google.c.")) {
+                it.remove();
+            }
+        }
+    }
+
+    private void zzad(Intent intent) {
         PendingIntent pendingIntent = (PendingIntent) intent.getParcelableExtra("pending_intent");
         if (pendingIntent != null) {
             try {
@@ -22,17 +32,17 @@ public class FirebaseMessagingService extends zzb {
                 Log.e("FirebaseMessaging", "Notification pending intent canceled");
             }
         }
-        if (zzT(intent.getExtras())) {
+        if (zzav(intent.getExtras())) {
             zzb.zzm(this, intent);
         }
     }
 
-    private String zzE(Intent intent) {
+    private String zzae(Intent intent) {
         String stringExtra = intent.getStringExtra("google.message_id");
         return stringExtra == null ? intent.getStringExtra("message_id") : stringExtra;
     }
 
-    static boolean zzT(Bundle bundle) {
+    static boolean zzav(Bundle bundle) {
         return "1".equals(bundle.getString("google.c.a.e"));
     }
 
@@ -70,7 +80,7 @@ public class FirebaseMessagingService extends zzb {
         }
         switch (obj) {
             case R.styleable.View_android_theme /*0*/:
-                if (zzT(intent.getExtras())) {
+                if (zzav(intent.getExtras())) {
                     zzb.zzl(this, intent);
                 }
                 zzo(intent);
@@ -82,7 +92,7 @@ public class FirebaseMessagingService extends zzb {
                 onMessageSent(intent.getStringExtra("google.message_id"));
                 return;
             case R.styleable.View_paddingEnd /*3*/:
-                onSendError(zzE(intent), new SendException(intent.getStringExtra(Extra.ERROR)));
+                onSendError(zzae(intent), new SendException(intent.getStringExtra(Extra.ERROR)));
                 return;
             default:
                 String str = "FirebaseMessaging";
@@ -96,25 +106,15 @@ public class FirebaseMessagingService extends zzb {
     private void zzo(Intent intent) {
         Bundle extras = intent.getExtras();
         extras.remove("android.support.content.wakelockid");
-        if (zza.zzA(extras)) {
-            if (!zza.zzaR(this)) {
-                zza.zzbC(this).zzQ(extras);
+        if (zza.zzac(extras)) {
+            if (!zza.zzdc(this)) {
+                zza.zzeo(this).zzas(extras);
                 return;
-            } else if (zzT(intent.getExtras())) {
+            } else if (zzav(intent.getExtras())) {
                 zzb.zzo(this, intent);
             }
         }
         onMessageReceived(new RemoteMessage(extras));
-    }
-
-    static void zzz(Bundle bundle) {
-        Iterator it = bundle.keySet().iterator();
-        while (it.hasNext()) {
-            String str = (String) it.next();
-            if (str != null && str.startsWith("google.c.")) {
-                it.remove();
-            }
-        }
     }
 
     @WorkerThread
@@ -133,12 +133,12 @@ public class FirebaseMessagingService extends zzb {
     public void onSendError(String str, Exception exception) {
     }
 
-    protected int zzA(Intent intent) {
+    protected int zzaa(Intent intent) {
         if (!"com.google.firebase.messaging.NOTIFICATION_OPEN".equals(intent.getAction())) {
-            return super.zzA(intent);
+            return super.zzaa(intent);
         }
-        zzD(intent);
-        zzBL();
+        zzad(intent);
+        zzbmb();
         FirebaseInstanceIdReceiver.completeWakefulIntent(intent);
         return 3;
     }
@@ -174,7 +174,7 @@ public class FirebaseMessagingService extends zzb {
     L_0x0025:
         android.util.Log.d(r1, r0);	 Catch:{ all -> 0x0047 }
     L_0x0028:
-        r4.zzBL();	 Catch:{ all -> 0x0047 }
+        r4.zzbmb();	 Catch:{ all -> 0x0047 }
         com.google.firebase.iid.FirebaseInstanceIdReceiver.completeWakefulIntent(r5);
         return;
     L_0x002f:
@@ -200,7 +200,7 @@ public class FirebaseMessagingService extends zzb {
         throw r0;
     L_0x004c:
         r0 = r5.getExtras();	 Catch:{ all -> 0x0047 }
-        r0 = zzT(r0);	 Catch:{ all -> 0x0047 }
+        r0 = zzav(r0);	 Catch:{ all -> 0x0047 }
         if (r0 == 0) goto L_0x0028;
     L_0x0056:
         com.google.firebase.messaging.zzb.zzn(r4, r5);	 Catch:{ all -> 0x0047 }
@@ -214,6 +214,6 @@ public class FirebaseMessagingService extends zzb {
     }
 
     protected Intent zzz(Intent intent) {
-        return FirebaseInstanceIdInternalReceiver.zzUr();
+        return FirebaseInstanceIdInternalReceiver.zzcwz();
     }
 }

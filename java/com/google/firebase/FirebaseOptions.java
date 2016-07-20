@@ -5,79 +5,79 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import com.google.android.gms.common.internal.zzaa;
-import com.google.android.gms.common.internal.zzah;
-import com.google.android.gms.common.internal.zzz;
+import com.google.android.gms.common.internal.zzab;
+import com.google.android.gms.common.internal.zzai;
 import com.google.android.gms.common.util.zzw;
 
 public final class FirebaseOptions {
-    private final String zzaeg;
-    private final String zzaoh;
-    private final String zzaok;
-    private final String zzaol;
-    private final String zzbEN;
-    private final String zzbEO;
+    private final String aMW;
+    private final String aMX;
+    private final String gs;
+    private final String uS;
+    private final String uV;
+    private final String uW;
 
     public static final class Builder {
-        private String zzaeg;
-        private String zzaoh;
-        private String zzaok;
-        private String zzaol;
-        private String zzbEN;
-        private String zzbEO;
+        private String aMW;
+        private String aMX;
+        private String gs;
+        private String uS;
+        private String uV;
+        private String uW;
 
         public Builder(FirebaseOptions firebaseOptions) {
-            this.zzaeg = firebaseOptions.zzaeg;
-            this.zzaoh = firebaseOptions.zzaoh;
-            this.zzbEN = firebaseOptions.zzbEN;
-            this.zzbEO = firebaseOptions.zzbEO;
-            this.zzaok = firebaseOptions.zzaok;
-            this.zzaol = firebaseOptions.zzaol;
+            this.gs = firebaseOptions.gs;
+            this.uS = firebaseOptions.uS;
+            this.aMW = firebaseOptions.aMW;
+            this.aMX = firebaseOptions.aMX;
+            this.uV = firebaseOptions.uV;
+            this.uW = firebaseOptions.uW;
         }
 
         public FirebaseOptions build() {
-            return new FirebaseOptions(this.zzaeg, this.zzaoh, this.zzbEN, this.zzbEO, this.zzaok, this.zzaol);
+            return new FirebaseOptions(this.gs, this.uS, this.aMW, this.aMX, this.uV, this.uW);
         }
 
         public Builder setApiKey(@NonNull String str) {
-            this.zzaoh = zzaa.zzh(str, "ApiKey must be set.");
+            this.uS = zzab.zzh(str, "ApiKey must be set.");
             return this;
         }
 
         public Builder setApplicationId(@NonNull String str) {
-            this.zzaeg = zzaa.zzh(str, "ApplicationId must be set.");
+            this.gs = zzab.zzh(str, "ApplicationId must be set.");
             return this;
         }
 
         public Builder setDatabaseUrl(@Nullable String str) {
-            this.zzbEN = str;
+            this.aMW = str;
             return this;
         }
 
         public Builder setGcmSenderId(@Nullable String str) {
-            this.zzaok = str;
+            this.uV = str;
             return this;
         }
 
         public Builder setStorageBucket(@Nullable String str) {
-            this.zzaol = str;
+            this.uW = str;
             return this;
         }
     }
 
     private FirebaseOptions(@NonNull String str, @NonNull String str2, @Nullable String str3, @Nullable String str4, @Nullable String str5, @Nullable String str6) {
-        zzaa.zza(!zzw.zzdv(str), "ApplicationId must be set.");
-        this.zzaeg = str;
-        this.zzaoh = str2;
-        this.zzbEN = str3;
-        this.zzbEO = str4;
-        this.zzaok = str5;
-        this.zzaol = str6;
+        zzab.zza(!zzw.zzic(str), "ApplicationId must be set.");
+        this.gs = str;
+        this.uS = str2;
+        this.aMW = str3;
+        this.aMX = str4;
+        this.uV = str5;
+        this.uW = str6;
     }
 
     public static FirebaseOptions fromResource(Context context) {
-        zzah com_google_android_gms_common_internal_zzah = new zzah(context);
-        Object string = com_google_android_gms_common_internal_zzah.getString("google_app_id");
-        return TextUtils.isEmpty(string) ? null : new FirebaseOptions(string, com_google_android_gms_common_internal_zzah.getString("google_api_key"), com_google_android_gms_common_internal_zzah.getString("firebase_database_url"), com_google_android_gms_common_internal_zzah.getString("ga_trackingId"), com_google_android_gms_common_internal_zzah.getString("gcm_defaultSenderId"), com_google_android_gms_common_internal_zzah.getString("google_storage_bucket"));
+        zzai com_google_android_gms_common_internal_zzai = new zzai(context);
+        Object string = com_google_android_gms_common_internal_zzai.getString("google_app_id");
+        return TextUtils.isEmpty(string) ? null : new FirebaseOptions(string, com_google_android_gms_common_internal_zzai.getString("google_api_key"), com_google_android_gms_common_internal_zzai.getString("firebase_database_url"), com_google_android_gms_common_internal_zzai.getString("ga_trackingId"), com_google_android_gms_common_internal_zzai.getString("gcm_defaultSenderId"), com_google_android_gms_common_internal_zzai.getString("google_storage_bucket"));
     }
 
     public boolean equals(Object obj) {
@@ -85,34 +85,34 @@ public final class FirebaseOptions {
             return false;
         }
         FirebaseOptions firebaseOptions = (FirebaseOptions) obj;
-        return zzz.equal(this.zzaeg, firebaseOptions.zzaeg) && zzz.equal(this.zzaoh, firebaseOptions.zzaoh) && zzz.equal(this.zzbEN, firebaseOptions.zzbEN) && zzz.equal(this.zzbEO, firebaseOptions.zzbEO) && zzz.equal(this.zzaok, firebaseOptions.zzaok) && zzz.equal(this.zzaol, firebaseOptions.zzaol);
+        return zzaa.equal(this.gs, firebaseOptions.gs) && zzaa.equal(this.uS, firebaseOptions.uS) && zzaa.equal(this.aMW, firebaseOptions.aMW) && zzaa.equal(this.aMX, firebaseOptions.aMX) && zzaa.equal(this.uV, firebaseOptions.uV) && zzaa.equal(this.uW, firebaseOptions.uW);
     }
 
     public String getApiKey() {
-        return this.zzaoh;
+        return this.uS;
     }
 
     public String getApplicationId() {
-        return this.zzaeg;
+        return this.gs;
     }
 
     public String getDatabaseUrl() {
-        return this.zzbEN;
+        return this.aMW;
     }
 
     public String getGcmSenderId() {
-        return this.zzaok;
+        return this.uV;
     }
 
     public String getStorageBucket() {
-        return this.zzaol;
+        return this.uW;
     }
 
     public int hashCode() {
-        return zzz.hashCode(new Object[]{this.zzaeg, this.zzaoh, this.zzbEN, this.zzbEO, this.zzaok, this.zzaol});
+        return zzaa.hashCode(new Object[]{this.gs, this.uS, this.aMW, this.aMX, this.uV, this.uW});
     }
 
     public String toString() {
-        return zzz.zzy(this).zzg("applicationId", this.zzaeg).zzg("apiKey", this.zzaoh).zzg("databaseUrl", this.zzbEN).zzg("gcmSenderId", this.zzaok).zzg("storageBucket", this.zzaol).toString();
+        return zzaa.zzz(this).zzg("applicationId", this.gs).zzg("apiKey", this.uS).zzg("databaseUrl", this.aMW).zzg("gcmSenderId", this.uV).zzg("storageBucket", this.uW).toString();
     }
 }

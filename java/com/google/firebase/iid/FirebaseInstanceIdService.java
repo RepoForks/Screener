@@ -16,23 +16,18 @@ import com.google.firebase.FirebaseApp;
 import me.zhanghai.android.materialprogressbar.BuildConfig;
 
 public class FirebaseInstanceIdService extends zzb {
-    private static BroadcastReceiver zzbSI;
-    private static final Object zzbSJ = new Object();
-    private static boolean zzbSK = false;
-    private boolean zzbSL = false;
-
-    private String zzC(Intent intent) {
-        String stringExtra = intent.getStringExtra("subtype");
-        return stringExtra == null ? BuildConfig.FLAVOR : stringExtra;
-    }
+    private static BroadcastReceiver baK;
+    private static final Object baL = new Object();
+    private static boolean baM = false;
+    private boolean baN = false;
 
     /* JADX WARNING: inconsistent code. */
     /* Code decompiled incorrectly, please refer to instructions dump. */
     static void zza(android.content.Context r2, com.google.firebase.iid.FirebaseInstanceId r3) {
         /*
-        r1 = zzbSJ;
+        r1 = baL;
         monitor-enter(r1);
-        r0 = zzbSK;	 Catch:{ all -> 0x001e }
+        r0 = baM;	 Catch:{ all -> 0x001e }
         if (r0 == 0) goto L_0x0009;
     L_0x0007:
         monitor-exit(r1);	 Catch:{ all -> 0x001e }
@@ -40,14 +35,14 @@ public class FirebaseInstanceIdService extends zzb {
         return;
     L_0x0009:
         monitor-exit(r1);	 Catch:{ all -> 0x001e }
-        r0 = r3.zzUn();
+        r0 = r3.zzcwv();
         if (r0 == 0) goto L_0x001a;
     L_0x0010:
-        r0 = r3.zzUp();
-        r0 = r0.zzUu();
+        r0 = r3.zzcwx();
+        r0 = r0.zzcxc();
         if (r0 == 0) goto L_0x0008;
     L_0x001a:
-        zzby(r2);
+        zzek(r2);
         goto L_0x0008;
     L_0x001e:
         r0 = move-exception;
@@ -64,20 +59,20 @@ public class FirebaseInstanceIdService extends zzb {
         r8 = this;
         r2 = 1;
         r1 = 0;
-        r3 = zzbSJ;
+        r3 = baL;
         monitor-enter(r3);
         r0 = 0;
-        zzbSK = r0;	 Catch:{ all -> 0x002f }
+        baM = r0;	 Catch:{ all -> 0x002f }
         monitor-exit(r3);	 Catch:{ all -> 0x002f }
         r0 = com.google.firebase.iid.FirebaseInstanceId.getInstance();
-        r4 = r0.zzUp();
-        r3 = r0.zzUn();
+        r4 = r0.zzcwx();
+        r3 = r0.zzcwv();
         if (r3 != 0) goto L_0x004a;
     L_0x0017:
-        r1 = r0.zzUo();	 Catch:{ IOException -> 0x0038, SecurityException -> 0x0041 }
+        r1 = r0.zzcww();	 Catch:{ IOException -> 0x0038, SecurityException -> 0x0041 }
         if (r1 == 0) goto L_0x0032;
     L_0x001d:
-        r1 = r8.zzbSL;	 Catch:{ IOException -> 0x0038, SecurityException -> 0x0041 }
+        r1 = r8.baN;	 Catch:{ IOException -> 0x0038, SecurityException -> 0x0041 }
         if (r1 == 0) goto L_0x0028;
     L_0x0021:
         r1 = "FirebaseInstanceId";
@@ -108,7 +103,7 @@ public class FirebaseInstanceIdService extends zzb {
         android.util.Log.e(r1, r2, r0);
         goto L_0x002e;
     L_0x004a:
-        r0 = r4.zzUu();
+        r0 = r4.zzcxc();
         r3 = r0;
     L_0x004f:
         if (r3 == 0) goto L_0x00b6;
@@ -136,8 +131,8 @@ public class FirebaseInstanceIdService extends zzb {
             default: goto L_0x006a;
         };
     L_0x006a:
-        r4.zziC(r3);
-        r0 = r4.zzUu();
+        r4.zzsj(r3);
+        r0 = r4.zzcxc();
         r3 = r0;
         goto L_0x004f;
     L_0x0073:
@@ -156,8 +151,8 @@ public class FirebaseInstanceIdService extends zzb {
         goto L_0x0067;
     L_0x0087:
         r0 = com.google.firebase.iid.FirebaseInstanceId.getInstance();	 Catch:{ IOException -> 0x009a }
-        r0.zziz(r6);	 Catch:{ IOException -> 0x009a }
-        r0 = r8.zzbSL;	 Catch:{ IOException -> 0x009a }
+        r0.zzsg(r6);	 Catch:{ IOException -> 0x009a }
+        r0 = r8.baN;	 Catch:{ IOException -> 0x009a }
         if (r0 == 0) goto L_0x006a;
     L_0x0092:
         r0 = "FirebaseInstanceId";
@@ -171,8 +166,8 @@ public class FirebaseInstanceIdService extends zzb {
         goto L_0x002e;
     L_0x00a3:
         r0 = com.google.firebase.iid.FirebaseInstanceId.getInstance();	 Catch:{ IOException -> 0x009a }
-        r0.zziA(r6);	 Catch:{ IOException -> 0x009a }
-        r0 = r8.zzbSL;	 Catch:{ IOException -> 0x009a }
+        r0.zzsh(r6);	 Catch:{ IOException -> 0x009a }
+        r0 = r8.baN;	 Catch:{ IOException -> 0x009a }
         if (r0 == 0) goto L_0x006a;
     L_0x00ae:
         r0 = "FirebaseInstanceId";
@@ -188,57 +183,73 @@ public class FirebaseInstanceIdService extends zzb {
         throw new UnsupportedOperationException("Method not decompiled: com.google.firebase.iid.FirebaseInstanceIdService.zza(android.content.Intent, boolean):void");
     }
 
+    private String zzac(Intent intent) {
+        String stringExtra = intent.getStringExtra("subtype");
+        return stringExtra == null ? BuildConfig.FLAVOR : stringExtra;
+    }
+
+    private static Intent zzadr(int i) {
+        Context applicationContext = FirebaseApp.getInstance().getApplicationContext();
+        Intent intent = new Intent("ACTION_TOKEN_REFRESH_RETRY");
+        intent.putExtra("next_retry_delay_in_seconds", i);
+        return FirebaseInstanceIdInternalReceiver.zzh(applicationContext, intent);
+    }
+
+    private void zzads(int i) {
+        ((AlarmManager) getSystemService("alarm")).set(3, SystemClock.elapsedRealtime() + ((long) (i * 1000)), PendingIntent.getBroadcast(this, 0, zzadr(i * 2), 268435456));
+    }
+
     private int zzb(Intent intent, boolean z) {
         int intExtra = intent == null ? 10 : intent.getIntExtra("next_retry_delay_in_seconds", 0);
         return (intExtra >= 10 || z) ? intExtra >= 10 ? intExtra > 28800 ? 28800 : intExtra : 10 : 30;
     }
 
-    static void zzby(Context context) {
-        synchronized (zzbSJ) {
-            if (!zzbSK) {
-                context.sendBroadcast(zznF(0));
-                zzbSK = true;
-            }
-        }
-    }
-
-    private static boolean zzbz(Context context) {
-        NetworkInfo activeNetworkInfo = ((ConnectivityManager) context.getSystemService("connectivity")).getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
     private void zzd(Intent intent, String str) {
-        boolean zzbz = zzbz(this);
-        final int zzb = zzb(intent, zzbz);
+        boolean zzel = zzel(this);
+        final int zzb = zzb(intent, zzel);
         Log.d("FirebaseInstanceId", new StringBuilder(String.valueOf(str).length() + 47).append("background sync failed: ").append(str).append(", retry in ").append(zzb).append("s").toString());
-        synchronized (zzbSJ) {
-            zznG(zzb);
-            zzbSK = true;
+        synchronized (baL) {
+            zzads(zzb);
+            baM = true;
         }
-        if (!zzbz) {
-            if (this.zzbSL) {
+        if (!zzel) {
+            if (this.baN) {
                 Log.d("FirebaseInstanceId", "device not connected. Connectivity change received registered");
             }
-            if (zzbSI == null) {
-                zzbSI = new BroadcastReceiver(this) {
-                    final /* synthetic */ FirebaseInstanceIdService zzbSN;
+            if (baK == null) {
+                baK = new BroadcastReceiver(this) {
+                    final /* synthetic */ FirebaseInstanceIdService baP;
 
                     public void onReceive(Context context, Intent intent) {
-                        if (FirebaseInstanceIdService.zzbz(context)) {
-                            if (this.zzbSN.zzbSL) {
+                        if (FirebaseInstanceIdService.zzel(context)) {
+                            if (this.baP.baN) {
                                 Log.d("FirebaseInstanceId", "connectivity changed. starting background sync.");
                             }
-                            this.zzbSN.getApplicationContext().unregisterReceiver(this);
-                            context.sendBroadcast(FirebaseInstanceIdService.zznF(zzb));
+                            this.baP.getApplicationContext().unregisterReceiver(this);
+                            context.sendBroadcast(FirebaseInstanceIdService.zzadr(zzb));
                         }
                     }
                 };
             }
-            getApplicationContext().registerReceiver(zzbSI, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+            getApplicationContext().registerReceiver(baK, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         }
     }
 
-    private zzd zziB(String str) {
+    static void zzek(Context context) {
+        synchronized (baL) {
+            if (!baM) {
+                context.sendBroadcast(zzadr(0));
+                baM = true;
+            }
+        }
+    }
+
+    private static boolean zzel(Context context) {
+        NetworkInfo activeNetworkInfo = ((ConnectivityManager) context.getSystemService("connectivity")).getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private zzd zzsi(String str) {
         if (str == null) {
             return zzd.zzb(this, null);
         }
@@ -247,66 +258,55 @@ public class FirebaseInstanceIdService extends zzb {
         return zzd.zzb(this, bundle);
     }
 
-    private static Intent zznF(int i) {
-        Context applicationContext = FirebaseApp.getInstance().getApplicationContext();
-        Intent intent = new Intent("ACTION_TOKEN_REFRESH_RETRY");
-        intent.putExtra("next_retry_delay_in_seconds", i);
-        return FirebaseInstanceIdInternalReceiver.zzh(applicationContext, intent);
-    }
-
-    private void zznG(int i) {
-        ((AlarmManager) getSystemService("alarm")).set(3, SystemClock.elapsedRealtime() + ((long) (i * 1000)), PendingIntent.getBroadcast(this, 0, zznF(i * 2), 268435456));
-    }
-
     @WorkerThread
     public void onTokenRefresh() {
     }
 
-    protected int zzA(Intent intent) {
-        this.zzbSL = Log.isLoggable("FirebaseInstanceId", 3);
+    protected int zzaa(Intent intent) {
+        this.baN = Log.isLoggable("FirebaseInstanceId", 3);
         if (intent.getStringExtra(Extra.ERROR) == null && intent.getStringExtra("registration_id") == null) {
-            return super.zzA(intent);
+            return super.zzaa(intent);
         }
-        String zzC = zzC(intent);
-        if (this.zzbSL) {
+        String zzac = zzac(intent);
+        if (this.baN) {
             String str = "FirebaseInstanceId";
             String str2 = "Register result in service ";
-            String valueOf = String.valueOf(zzC);
+            String valueOf = String.valueOf(zzac);
             Log.d(str, valueOf.length() != 0 ? str2.concat(valueOf) : new String(str2));
         }
-        zziB(zzC).zzUt().zzu(intent);
-        zzBL();
+        zzsi(zzac).zzcxb().zzu(intent);
+        zzbmb();
         return 2;
     }
 
-    public void zzB(Intent intent) {
-        String zzC = zzC(intent);
-        zzd zziB = zziB(zzC);
+    public void zzab(Intent intent) {
+        String zzac = zzac(intent);
+        zzd zzsi = zzsi(zzac);
         String stringExtra = intent.getStringExtra("CMD");
-        if (this.zzbSL) {
+        if (this.baN) {
             String valueOf = String.valueOf(intent.getExtras());
-            Log.d("FirebaseInstanceId", new StringBuilder(((String.valueOf(zzC).length() + 18) + String.valueOf(stringExtra).length()) + String.valueOf(valueOf).length()).append("Service command ").append(zzC).append(" ").append(stringExtra).append(" ").append(valueOf).toString());
+            Log.d("FirebaseInstanceId", new StringBuilder(((String.valueOf(zzac).length() + 18) + String.valueOf(stringExtra).length()) + String.valueOf(valueOf).length()).append("Service command ").append(zzac).append(" ").append(stringExtra).append(" ").append(valueOf).toString());
         }
         if (intent.getStringExtra("unregistered") != null) {
-            zzg zzUs = zziB.zzUs();
-            if (zzC == null) {
-                zzC = BuildConfig.FLAVOR;
+            zzg zzcxa = zzsi.zzcxa();
+            if (zzac == null) {
+                zzac = BuildConfig.FLAVOR;
             }
-            zzUs.zzeG(zzC);
-            zziB.zzUt().zzu(intent);
+            zzcxa.zzkk(zzac);
+            zzsi.zzcxb().zzu(intent);
         } else if ("gcm.googleapis.com/refresh".equals(intent.getStringExtra("from"))) {
-            zziB.zzUs().zzeG(zzC);
+            zzsi.zzcxa().zzkk(zzac);
             zza(intent, false);
         } else if ("RST".equals(stringExtra)) {
-            zziB.zzCe();
+            zzsi.zzbmu();
             zza(intent, true);
         } else if ("RST_FULL".equals(stringExtra)) {
-            if (!zziB.zzUs().isEmpty()) {
-                zziB.zzUs().zzCk();
+            if (!zzsi.zzcxa().isEmpty()) {
+                zzsi.zzcxa().zzbna();
                 zza(intent, true);
             }
         } else if ("SYNC".equals(stringExtra)) {
-            zziB.zzUs().zzeG(zzC);
+            zzsi.zzcxa().zzkk(zzac);
             zza(intent, false);
         } else if (!"PING".equals(stringExtra)) {
         }
@@ -337,7 +337,7 @@ public class FirebaseInstanceIdService extends zzb {
             default: goto L_0x0015;
         };
     L_0x0015:
-        r4.zzB(r5);
+        r4.zzab(r5);
     L_0x0018:
         return;
     L_0x0019:
@@ -355,6 +355,6 @@ public class FirebaseInstanceIdService extends zzb {
     }
 
     protected Intent zzz(Intent intent) {
-        return FirebaseInstanceIdInternalReceiver.zzUq();
+        return FirebaseInstanceIdInternalReceiver.zzcwy();
     }
 }

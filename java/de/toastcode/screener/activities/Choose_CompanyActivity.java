@@ -439,7 +439,12 @@ public class Choose_CompanyActivity extends AppCompatActivity {
     public void loadPreferences(String KEY, int index) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (index == 0) {
-            this.lastUpdate = sharedPreferences.getString(KEY, BuildConfig.FLAVOR);
+            String name = sharedPreferences.getString(KEY, BuildConfig.FLAVOR);
+            if (name != null) {
+                this.lastUpdate = name;
+            } else {
+                this.lastUpdate = BuildConfig.FLAVOR;
+            }
         } else if (index == 1) {
             try {
                 if (this.list_sel_devices.isEmpty()) {

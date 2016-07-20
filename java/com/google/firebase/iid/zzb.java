@@ -12,28 +12,28 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public abstract class zzb extends Service {
-    private int zzaSJ;
-    private int zzaSK = 0;
-    MessengerCompat zzaUg = new MessengerCompat(new Handler(this, Looper.getMainLooper()) {
-        final /* synthetic */ zzb zzbSA;
+    private int aay;
+    private int aaz = 0;
+    MessengerCompat abV = new MessengerCompat(new Handler(this, Looper.getMainLooper()) {
+        final /* synthetic */ zzb baC;
 
         public void handleMessage(Message message) {
             int zzc = MessengerCompat.zzc(message);
-            zzf.zzaX(this.zzbSA);
-            this.zzbSA.getPackageManager();
-            if (zzc == zzf.zzaUs || zzc == zzf.zzaUr) {
-                this.zzbSA.zzm((Intent) message.obj);
+            zzf.zzdi(this.baC);
+            this.baC.getPackageManager();
+            if (zzc == zzf.ach || zzc == zzf.acg) {
+                this.baC.zzm((Intent) message.obj);
                 return;
             }
-            int i = zzf.zzaUr;
-            Log.w("FirebaseInstanceId", "Message from unexpected caller " + zzc + " mine=" + i + " appid=" + zzf.zzaUs);
+            int i = zzf.acg;
+            Log.w("FirebaseInstanceId", "Message from unexpected caller " + zzc + " mine=" + i + " appid=" + zzf.ach);
         }
     });
-    final ExecutorService zzbqx = Executors.newSingleThreadExecutor();
-    private final Object zzpp = new Object();
+    final ExecutorService axF = Executors.newSingleThreadExecutor();
+    private final Object zzail = new Object();
 
     public final IBinder onBind(Intent intent) {
-        return (intent == null || !"com.google.firebase.INSTANCE_ID_EVENT".equals(intent.getAction())) ? null : this.zzaUg.getBinder();
+        return (intent == null || !"com.google.firebase.INSTANCE_ID_EVENT".equals(intent.getAction())) ? null : this.abV.getBinder();
     }
 
     public final int onStartCommand(android.content.Intent r4, int r5, int r6) {
@@ -55,17 +55,17 @@ Error: java.util.NoSuchElementException
 */
         /*
         r3 = this;
-        r1 = r3.zzpp;
+        r1 = r3.zzail;
         monitor-enter(r1);
-        r3.zzaSJ = r6;
-        r0 = r3.zzaSK;
+        r3.aay = r6;
+        r0 = r3.aaz;
         r0 = r0 + 1;
-        r3.zzaSK = r0;
+        r3.aaz = r0;
         monitor-exit(r1);
         r1 = r3.zzz(r4);
         if (r1 != 0) goto L_0x001a;
     L_0x0012:
-        r3.zzBL();
+        r3.zzbmb();
         r0 = 2;
     L_0x0016:
         return r0;
@@ -74,7 +74,7 @@ Error: java.util.NoSuchElementException
         monitor-exit(r1);
         throw r0;
     L_0x001a:
-        r0 = r3.zzA(r1);	 Catch:{ all -> 0x002a }
+        r0 = r3.zzaa(r1);	 Catch:{ all -> 0x002a }
         r2 = "from";
         r2 = r1.getStringExtra(r2);
         if (r2 == 0) goto L_0x0016;
@@ -94,32 +94,32 @@ Error: java.util.NoSuchElementException
         throw new UnsupportedOperationException("Method not decompiled: com.google.firebase.iid.zzb.onStartCommand(android.content.Intent, int, int):int");
     }
 
-    protected int zzA(final Intent intent) {
-        this.zzbqx.execute(new Runnable(this) {
-            final /* synthetic */ zzb zzbSA;
+    protected int zzaa(final Intent intent) {
+        this.axF.execute(new Runnable(this) {
+            final /* synthetic */ zzb baC;
 
             public void run() {
-                this.zzbSA.zzm(intent);
-                this.zzbSA.zzBL();
+                this.baC.zzm(intent);
+                this.baC.zzbmb();
             }
         });
         return 3;
     }
 
-    protected void zzBL() {
-        synchronized (this.zzpp) {
-            this.zzaSK--;
-            if (this.zzaSK == 0) {
-                zzhE(this.zzaSJ);
+    protected void zzbmb() {
+        synchronized (this.zzail) {
+            this.aaz--;
+            if (this.aaz == 0) {
+                zzsh(this.aay);
             }
         }
     }
 
-    boolean zzhE(int i) {
+    public abstract void zzm(Intent intent);
+
+    boolean zzsh(int i) {
         return stopSelfResult(i);
     }
-
-    public abstract void zzm(Intent intent);
 
     protected abstract Intent zzz(Intent intent);
 }

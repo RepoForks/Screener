@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="14" android:versionName="2.0" package="de.toastcode.screener" platformBuildVersionCode="24" platformBuildVersionName="N">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="15" android:versionName="2.1" package="de.toastcode.screener" platformBuildVersionCode="24" platformBuildVersionName="7.0">
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="24" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -64,15 +64,12 @@
         </activity>
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" android:supportsPictureInPicture="true" />
         <meta-data android:name="io.fabric.ApiKey" android:value="533dd614eb03a71ca9cdbb313b8e6e04f002a72c" />
-        <receiver android:name="com.google.android.gms.measurement.AppMeasurementReceiver" android:enabled="true">
-            <intent-filter>
-                <action android:name="com.google.android.gms.measurement.UPLOAD" />
+        <service android:name="com.google.firebase.messaging.FirebaseMessagingService" android:exported="true">
+            <intent-filter android:priority="-500">
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </receiver>
-        <service android:name="com.google.android.gms.measurement.AppMeasurementService" android:enabled="true" android:exported="false" />
+        </service>
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-        <provider android:name="com.google.firebase.provider.FirebaseInitProvider" android:exported="false" android:authorities="de.toastcode.screener.firebaseinitprovider" android:initOrder="100" />
-        <activity android:theme="@*android:style/Theme.Translucent.NoTitleBar" android:name="com.google.android.gms.common.api.GoogleApiActivity" android:exported="false" />
         <receiver android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver" android:permission="com.google.android.c2dm.permission.SEND" android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -86,11 +83,13 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name="com.google.firebase.messaging.FirebaseMessagingService" android:exported="true">
-            <intent-filter android:priority="-500">
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+        <provider android:name="com.google.firebase.provider.FirebaseInitProvider" android:exported="false" android:authorities="de.toastcode.screener.firebaseinitprovider" android:initOrder="100" />
         <activity android:name="com.mikepenz.aboutlibraries.ui.LibsActivity" />
+        <receiver android:name="com.google.android.gms.measurement.AppMeasurementReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.measurement.UPLOAD" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.google.android.gms.measurement.AppMeasurementService" android:enabled="true" android:exported="false" />
     </application>
 </manifest>

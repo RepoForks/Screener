@@ -7,18 +7,7 @@ import android.util.Log;
 import com.google.android.gms.measurement.AppMeasurement;
 
 class zzb {
-    static AppMeasurement zzbGt;
-
-    private static AppMeasurement zzbD(Context context) {
-        if (null != null) {
-            return zzbGt;
-        }
-        try {
-            return AppMeasurement.getInstance(context);
-        } catch (NoClassDefFoundError e) {
-            return null;
-        }
-    }
+    static AppMeasurement aOC;
 
     private static void zzc(Context context, String str, Intent intent) {
         Bundle bundle = new Bundle();
@@ -53,11 +42,22 @@ class zzb {
             String valueOf = String.valueOf(bundle);
             Log.d("FirebaseMessaging", new StringBuilder((String.valueOf(str).length() + 22) + String.valueOf(valueOf).length()).append("Sending event=").append(str).append(" params=").append(valueOf).toString());
         }
-        AppMeasurement zzbD = zzbD(context);
-        if (zzbD != null) {
-            zzbD.zzd("fcm", str, bundle);
+        AppMeasurement zzep = zzep(context);
+        if (zzep != null) {
+            zzep.zzd("fcm", str, bundle);
         } else {
             Log.w("FirebaseMessaging", "Unable to log event, missing measurement library");
+        }
+    }
+
+    private static AppMeasurement zzep(Context context) {
+        if (null != null) {
+            return aOC;
+        }
+        try {
+            return AppMeasurement.getInstance(context);
+        } catch (NoClassDefFoundError e) {
+            return null;
         }
     }
 
@@ -81,15 +81,15 @@ class zzb {
     private static void zzp(Context context, Intent intent) {
         if (intent != null) {
             if ("1".equals(intent.getStringExtra("google.c.a.tc"))) {
-                AppMeasurement zzbD = zzbD(context);
-                if (zzbD != null) {
+                AppMeasurement zzep = zzep(context);
+                if (zzep != null) {
                     String stringExtra = intent.getStringExtra("google.c.a.c_id");
-                    zzbD.zza("fcm", "_ln", stringExtra);
+                    zzep.zzb("fcm", "_ln", stringExtra);
                     Bundle bundle = new Bundle();
                     bundle.putString("source", "Firebase");
                     bundle.putString("medium", "notification");
                     bundle.putString("campaign", stringExtra);
-                    zzbD.zzd("fcm", "_cmp", bundle);
+                    zzep.zzd("fcm", "_cmp", bundle);
                     return;
                 }
                 Log.w("FirebaseMessaging", "Unable to set user property for event tracking, missing measurement library");

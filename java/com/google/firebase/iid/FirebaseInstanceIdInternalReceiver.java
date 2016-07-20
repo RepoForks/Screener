@@ -13,16 +13,8 @@ import java.util.Queue;
 import me.zhanghai.android.materialprogressbar.R;
 
 public final class FirebaseInstanceIdInternalReceiver extends WakefulBroadcastReceiver {
-    private static final Queue<Intent> zzbSG = new LinkedList();
-    private static final Queue<Intent> zzbSH = new LinkedList();
-
-    public static Intent zzUq() {
-        return (Intent) zzbSG.poll();
-    }
-
-    public static Intent zzUr() {
-        return (Intent) zzbSH.poll();
-    }
+    private static final Queue<Intent> baI = new LinkedList();
+    private static final Queue<Intent> baJ = new LinkedList();
 
     private static Intent zza(Context context, String str, Intent intent) {
         Intent intent2 = new Intent(context, FirebaseInstanceIdInternalReceiver.class);
@@ -49,10 +41,10 @@ public final class FirebaseInstanceIdInternalReceiver extends WakefulBroadcastRe
         }
         switch (obj) {
             case R.styleable.View_android_theme /*0*/:
-                zzbSG.offer(intent);
+                baI.offer(intent);
                 break;
             case R.styleable.View_android_focusable /*1*/:
-                zzbSH.offer(intent);
+                baJ.offer(intent);
                 break;
             default:
                 String str2 = "FirebaseInstanceId";
@@ -64,6 +56,14 @@ public final class FirebaseInstanceIdInternalReceiver extends WakefulBroadcastRe
         Intent intent2 = new Intent(str);
         intent2.setPackage(context.getPackageName());
         return zzj(context, intent2);
+    }
+
+    public static Intent zzcwy() {
+        return (Intent) baI.poll();
+    }
+
+    public static Intent zzcwz() {
+        return (Intent) baJ.poll();
     }
 
     private static void zzg(Context context, Intent intent) {

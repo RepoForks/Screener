@@ -194,10 +194,10 @@ public class MaterialDialog extends DialogBase implements OnClickListener, OnIte
         protected float contentLineSpacingMultiplier = 1.2f;
         protected final Context context;
         protected View customView;
+        protected Integer[] disabledIndices = null;
         protected OnDismissListener dismissListener;
         protected int dividerColor;
         protected boolean dividerColorSet = false;
-        protected boolean forceStacking;
         protected Drawable icon;
         protected boolean indeterminateIsHorizontalProgress;
         protected boolean indeterminateProgress;
@@ -247,6 +247,7 @@ public class MaterialDialog extends DialogBase implements OnClickListener, OnIte
         protected Integer[] selectedIndices = null;
         protected OnShowListener showListener;
         protected boolean showMinMax;
+        protected StackingBehavior stackingBehavior;
         protected Theme theme = Theme.LIGHT;
         protected CharSequence title;
         protected int titleColor = -1;
@@ -598,6 +599,11 @@ public class MaterialDialog extends DialogBase implements OnClickListener, OnIte
             return this;
         }
 
+        public Builder itemsDisabledIndices(@Nullable Integer... disabledIndices) {
+            this.disabledIndices = disabledIndices;
+            return this;
+        }
+
         public Builder alwaysCallMultiChoiceCallback() {
             this.alwaysCallMultiChoiceCallback = true;
             return this;
@@ -810,7 +816,7 @@ public class MaterialDialog extends DialogBase implements OnClickListener, OnIte
         }
 
         public Builder widgetColorAttr(@AttrRes int colorAttr) {
-            return widgetColorRes(DialogUtils.resolveColor(this.context, colorAttr));
+            return widgetColor(DialogUtils.resolveColor(this.context, colorAttr));
         }
 
         public Builder dividerColor(@ColorInt int color) {
@@ -929,9 +935,14 @@ public class MaterialDialog extends DialogBase implements OnClickListener, OnIte
             return this;
         }
 
-        public Builder forceStacking(boolean stacked) {
-            this.forceStacking = stacked;
+        public Builder stackingBehavior(@NonNull StackingBehavior behavior) {
+            this.stackingBehavior = behavior;
             return this;
+        }
+
+        @Deprecated
+        public Builder forceStacking(boolean stacked) {
+            return stackingBehavior(stacked ? StackingBehavior.ALWAYS : StackingBehavior.ADAPTIVE);
         }
 
         public Builder input(@Nullable CharSequence hint, @Nullable CharSequence prefill, boolean allowEmptyInput, @NonNull InputCallback callback) {
@@ -1143,10 +1154,18 @@ public class MaterialDialog extends DialogBase implements OnClickListener, OnIte
     }
 
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        if (!view.isEnabled()) {
+            return;
+        }
         if (this.mBuilder.listCallbackCustom != null) {
             CharSequence text = null;
             if (view instanceof TextView) {
                 text = ((TextView) view).getText();
+            } else {
+                TextView tv = (TextView) view.findViewById(16908310);
+                if (tv != null) {
+                    text = tv.getText();
+                }
             }
             this.mBuilder.listCallbackCustom.onSelection(this, view, position, text);
         } else if (this.listType == null || this.listType == ListType.REGULAR) {
@@ -1158,43 +1177,47 @@ public class MaterialDialog extends DialogBase implements OnClickListener, OnIte
             }
         } else if (this.listType == ListType.MULTI) {
             CheckBox cb = (CheckBox) view.findViewById(R.id.control);
-            if (!this.selectedIndicesList.contains(Integer.valueOf(position))) {
-                this.selectedIndicesList.add(Integer.valueOf(position));
-                if (!this.mBuilder.alwaysCallMultiChoiceCallback) {
-                    cb.setChecked(true);
-                    return;
-                } else if (sendMultichoiceCallback()) {
-                    cb.setChecked(true);
-                    return;
-                } else {
-                    this.selectedIndicesList.remove(Integer.valueOf(position));
-                    return;
+            if (cb.isEnabled()) {
+                if (!this.selectedIndicesList.contains(Integer.valueOf(position))) {
+                    this.selectedIndicesList.add(Integer.valueOf(position));
+                    if (!this.mBuilder.alwaysCallMultiChoiceCallback) {
+                        cb.setChecked(true);
+                        return;
+                    } else if (sendMultichoiceCallback()) {
+                        cb.setChecked(true);
+                        return;
+                    } else {
+                        this.selectedIndicesList.remove(Integer.valueOf(position));
+                        return;
+                    }
+                }
+                this.selectedIndicesList.remove(Integer.valueOf(position));
+                cb.setChecked(false);
+                if (this.mBuilder.alwaysCallMultiChoiceCallback) {
+                    sendMultichoiceCallback();
                 }
             }
-            this.selectedIndicesList.remove(Integer.valueOf(position));
-            cb.setChecked(false);
-            if (this.mBuilder.alwaysCallMultiChoiceCallback) {
-                sendMultichoiceCallback();
-            }
         } else if (this.listType == ListType.SINGLE) {
-            boolean allowSelection = true;
-            DefaultAdapter adapter = this.mBuilder.adapter;
             RadioButton radio = (RadioButton) view.findViewById(R.id.control);
-            if (this.mBuilder.autoDismiss && this.mBuilder.positiveText == null) {
-                dismiss();
-                allowSelection = false;
-                this.mBuilder.selectedIndex = position;
-                sendSingleChoiceCallback(view);
-            } else if (this.mBuilder.alwaysCallSingleChoiceCallback) {
-                int oldSelected = this.mBuilder.selectedIndex;
-                this.mBuilder.selectedIndex = position;
-                allowSelection = sendSingleChoiceCallback(view);
-                this.mBuilder.selectedIndex = oldSelected;
-            }
-            if (allowSelection) {
-                this.mBuilder.selectedIndex = position;
-                radio.setChecked(true);
-                adapter.notifyDataSetChanged();
+            if (radio.isEnabled()) {
+                boolean allowSelection = true;
+                DefaultAdapter adapter = this.mBuilder.adapter;
+                if (this.mBuilder.autoDismiss && this.mBuilder.positiveText == null) {
+                    dismiss();
+                    allowSelection = false;
+                    this.mBuilder.selectedIndex = position;
+                    sendSingleChoiceCallback(view);
+                } else if (this.mBuilder.alwaysCallSingleChoiceCallback) {
+                    int oldSelected = this.mBuilder.selectedIndex;
+                    this.mBuilder.selectedIndex = position;
+                    allowSelection = sendSingleChoiceCallback(view);
+                    this.mBuilder.selectedIndex = oldSelected;
+                }
+                if (allowSelection) {
+                    this.mBuilder.selectedIndex = position;
+                    radio.setChecked(true);
+                    adapter.notifyDataSetChanged();
+                }
             }
         }
     }
@@ -1315,7 +1338,7 @@ public class MaterialDialog extends DialogBase implements OnClickListener, OnIte
                     this.mBuilder.onNegativeCallback.onClick(this, tag);
                 }
                 if (this.mBuilder.autoDismiss) {
-                    dismiss();
+                    cancel();
                     break;
                 }
                 break;

@@ -3,7 +3,7 @@ package com.google.firebase.auth;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import com.google.android.gms.common.internal.zzaa;
+import com.google.android.gms.common.internal.zzab;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 public abstract class FirebaseUser implements UserInfo {
     @NonNull
     public Task<Void> delete() {
-        return zzOl().zzNS().zzc(this);
+        return zzcks().zzcjz().zzc(this);
     }
 
     @Nullable
@@ -34,7 +34,7 @@ public abstract class FirebaseUser implements UserInfo {
 
     @NonNull
     public Task<GetTokenResult> getToken(boolean z) {
-        return zzOl().zzNS().zza(this, z);
+        return zzcks().zzcjz().zza(this, z);
     }
 
     @NonNull
@@ -44,53 +44,53 @@ public abstract class FirebaseUser implements UserInfo {
 
     @NonNull
     public Task<AuthResult> linkWithCredential(@NonNull AuthCredential authCredential) {
-        zzaa.zzz(authCredential);
-        return zzOl().zzNS().zzb(this, authCredential);
+        zzab.zzaa(authCredential);
+        return zzcks().zzcjz().zzb(this, authCredential);
     }
 
     public Task<Void> reauthenticate(@NonNull AuthCredential authCredential) {
-        zzaa.zzz(authCredential);
-        return zzOl().zzNS().zza(this, authCredential);
+        zzab.zzaa(authCredential);
+        return zzcks().zzcjz().zza(this, authCredential);
     }
 
     @NonNull
     public Task<Void> reload() {
-        return zzOl().zzNS().zzb(this);
+        return zzcks().zzcjz().zzb(this);
     }
 
     public Task<AuthResult> unlink(@NonNull String str) {
-        zzaa.zzdl(str);
-        return zzOl().zzNS().zza(this, str);
+        zzab.zzhs(str);
+        return zzcks().zzcjz().zza(this, str);
     }
 
     @NonNull
     public Task<Void> updateEmail(@NonNull String str) {
-        zzaa.zzdl(str);
-        return zzOl().zzNS().zzb(this, str);
+        zzab.zzhs(str);
+        return zzcks().zzcjz().zzb(this, str);
     }
 
     @NonNull
     public Task<Void> updatePassword(@NonNull String str) {
-        zzaa.zzdl(str);
-        return zzOl().zzNS().zzc(this, str);
+        zzab.zzhs(str);
+        return zzcks().zzcjz().zzc(this, str);
     }
 
     @NonNull
     public Task<Void> updateProfile(@NonNull UserProfileChangeRequest userProfileChangeRequest) {
-        zzaa.zzz(userProfileChangeRequest);
-        return zzOl().zzNS().zza(this, userProfileChangeRequest);
+        zzab.zzaa(userProfileChangeRequest);
+        return zzcks().zzcjz().zza(this, userProfileChangeRequest);
     }
 
     @NonNull
-    public abstract FirebaseUser zzN(@NonNull List<? extends UserInfo> list);
+    public abstract FirebaseUser zzan(@NonNull List<? extends UserInfo> list);
 
     @NonNull
-    public abstract FirebaseApp zzOl();
+    public abstract FirebaseApp zzcks();
 
     @NonNull
-    public abstract String zzOm();
+    public abstract String zzckt();
 
-    public abstract FirebaseUser zzaK(boolean z);
+    public abstract FirebaseUser zzcm(boolean z);
 
-    public abstract void zzhG(@NonNull String str);
+    public abstract void zzql(@NonNull String str);
 }

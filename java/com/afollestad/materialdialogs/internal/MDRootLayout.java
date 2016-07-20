@@ -23,6 +23,7 @@ import android.widget.ScrollView;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog.NotImplementedException;
 import com.afollestad.materialdialogs.R;
+import com.afollestad.materialdialogs.StackingBehavior;
 import com.afollestad.materialdialogs.util.DialogUtils;
 
 public class MDRootLayout extends ViewGroup {
@@ -40,11 +41,11 @@ public class MDRootLayout extends ViewGroup {
     private int mDividerWidth;
     private boolean mDrawBottomDivider;
     private boolean mDrawTopDivider;
-    private boolean mForceStack;
     private boolean mIsStacked;
     private boolean mNoTitleNoPadding;
     private int mNoTitlePaddingFull;
     private boolean mReducePaddingNoTitleNoButtons;
+    private StackingBehavior mStackBehavior;
     private View mTitleBar;
     private OnScrollChangedListener mTopOnScrollChangedListener;
     private boolean mUseFullPadding;
@@ -69,7 +70,7 @@ public class MDRootLayout extends ViewGroup {
         this.mDrawTopDivider = false;
         this.mDrawBottomDivider = false;
         this.mButtons = new MDButton[3];
-        this.mForceStack = false;
+        this.mStackBehavior = StackingBehavior.ADAPTIVE;
         this.mIsStacked = false;
         this.mUseFullPadding = true;
         this.mButtonGravity = GravityEnum.START;
@@ -81,7 +82,7 @@ public class MDRootLayout extends ViewGroup {
         this.mDrawTopDivider = false;
         this.mDrawBottomDivider = false;
         this.mButtons = new MDButton[3];
-        this.mForceStack = false;
+        this.mStackBehavior = StackingBehavior.ADAPTIVE;
         this.mIsStacked = false;
         this.mUseFullPadding = true;
         this.mButtonGravity = GravityEnum.START;
@@ -94,7 +95,7 @@ public class MDRootLayout extends ViewGroup {
         this.mDrawTopDivider = false;
         this.mDrawBottomDivider = false;
         this.mButtons = new MDButton[3];
-        this.mForceStack = false;
+        this.mStackBehavior = StackingBehavior.ADAPTIVE;
         this.mIsStacked = false;
         this.mUseFullPadding = true;
         this.mButtonGravity = GravityEnum.START;
@@ -107,7 +108,7 @@ public class MDRootLayout extends ViewGroup {
         this.mDrawTopDivider = false;
         this.mDrawBottomDivider = false;
         this.mButtons = new MDButton[3];
-        this.mForceStack = false;
+        this.mStackBehavior = StackingBehavior.ADAPTIVE;
         this.mIsStacked = false;
         this.mUseFullPadding = true;
         this.mButtonGravity = GravityEnum.START;
@@ -162,8 +163,10 @@ public class MDRootLayout extends ViewGroup {
         int height = MeasureSpec.getSize(heightMeasureSpec);
         this.mUseFullPadding = true;
         boolean hasButtons = false;
-        if (this.mForceStack) {
+        if (this.mStackBehavior == StackingBehavior.ALWAYS) {
             stacked = true;
+        } else if (this.mStackBehavior == StackingBehavior.NEVER) {
+            stacked = false;
         } else {
             int buttonsWidth = INDEX_NEUTRAL;
             mDButtonArr = this.mButtons;
@@ -343,8 +346,8 @@ public class MDRootLayout extends ViewGroup {
         setUpDividersVisibility(this.mContent, true, true);
     }
 
-    public void setForceStack(boolean forceStack) {
-        this.mForceStack = forceStack;
+    public void setStackingBehavior(StackingBehavior behavior) {
+        this.mStackBehavior = behavior;
         invalidate();
     }
 

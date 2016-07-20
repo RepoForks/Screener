@@ -10,9 +10,9 @@ public class DrawableCompat {
                 return Mode.SRC_OVER;
             case R.styleable.Toolbar_contentInsetStart /*5*/:
                 return Mode.SRC_IN;
-            case R.styleable.SwitchCompat_switchTextAppearance /*9*/:
+            case R.styleable.Toolbar_contentInsetStartWithNavigation /*9*/:
                 return Mode.SRC_ATOP;
-            case R.styleable.SearchView_suggestionRowLayout /*14*/:
+            case R.styleable.Toolbar_titleMargin /*14*/:
                 return Mode.MULTIPLY;
             case R.styleable.Toolbar_titleMarginStart /*15*/:
                 return Mode.SCREEN;

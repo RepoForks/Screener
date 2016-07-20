@@ -219,11 +219,14 @@
     <dimen name="material_drawer_padding">8dp</dimen>
     <dimen name="material_drawer_sticky_footer_elevation">4dp</dimen>
     <dimen name="material_drawer_width">320dp</dimen>
-    <dimen name="material_mini_drawer_item">64dp</dimen>
+    <dimen name="material_mini_drawer_item">72dp</dimen>
     <dimen name="material_mini_drawer_item_badge_text">12sp</dimen>
     <dimen name="material_mini_drawer_item_icon">56dp</dimen>
     <dimen name="material_mini_drawer_item_icon_padding">16dp</dimen>
     <dimen name="material_mini_drawer_item_padding">4dp</dimen>
+    <dimen name="material_mini_drawer_item_padding_sides">8dp</dimen>
+    <dimen name="material_mini_drawer_item_profile_icon">40dp</dimen>
+    <dimen name="material_mini_drawer_item_profile_icon_padding">16dp</dimen>
     <dimen name="materialize_avatar">40dp</dimen>
     <dimen name="materialize_baseline_grid">8dp</dimen>
     <dimen name="materialize_baseline_grid_small">4dp</dimen>

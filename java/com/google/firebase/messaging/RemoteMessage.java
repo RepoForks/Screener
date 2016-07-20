@@ -13,14 +13,14 @@ import java.util.Map.Entry;
 
 public final class RemoteMessage extends AbstractSafeParcelable {
     public static final Creator<RemoteMessage> CREATOR = new zzc();
+    Bundle bM;
+    private Notification bbb;
     final int mVersionCode;
-    private Map<String, String> zzUu;
-    Bundle zzaay;
-    private Notification zzbTa;
+    private Map<String, String> zzctg;
 
     public static class Builder {
-        private final Map<String, String> zzUu = new ArrayMap();
-        private final Bundle zzaay = new Bundle();
+        private final Bundle bM = new Bundle();
+        private final Map<String, String> zzctg = new ArrayMap();
 
         public Builder(String str) {
             if (TextUtils.isEmpty(str)) {
@@ -28,80 +28,80 @@ public final class RemoteMessage extends AbstractSafeParcelable {
                 String valueOf = String.valueOf(str);
                 throw new IllegalArgumentException(valueOf.length() != 0 ? str2.concat(valueOf) : new String(str2));
             }
-            this.zzaay.putString("google.to", str);
+            this.bM.putString("google.to", str);
         }
 
         public Builder addData(String str, String str2) {
-            this.zzUu.put(str, str2);
+            this.zzctg.put(str, str2);
             return this;
         }
 
         public RemoteMessage build() {
             Bundle bundle = new Bundle();
-            for (Entry entry : this.zzUu.entrySet()) {
+            for (Entry entry : this.zzctg.entrySet()) {
                 bundle.putString((String) entry.getKey(), (String) entry.getValue());
             }
-            bundle.putAll(this.zzaay);
+            bundle.putAll(this.bM);
             return new RemoteMessage(bundle);
         }
 
         public Builder clearData() {
-            this.zzUu.clear();
+            this.zzctg.clear();
             return this;
         }
 
         public Builder setCollapseKey(String str) {
-            this.zzaay.putString("collapse_key", str);
+            this.bM.putString("collapse_key", str);
             return this;
         }
 
         public Builder setData(Map<String, String> map) {
-            this.zzUu.clear();
-            this.zzUu.putAll(map);
+            this.zzctg.clear();
+            this.zzctg.putAll(map);
             return this;
         }
 
         public Builder setMessageId(String str) {
-            this.zzaay.putString("google.message_id", str);
+            this.bM.putString("google.message_id", str);
             return this;
         }
 
         public Builder setMessageType(String str) {
-            this.zzaay.putString("message_type", str);
+            this.bM.putString("message_type", str);
             return this;
         }
 
         public Builder setTtl(int i) {
-            this.zzaay.putString("google.ttl", String.valueOf(i));
+            this.bM.putString("google.ttl", String.valueOf(i));
             return this;
         }
     }
 
     public static class Notification {
+        private final String Fx;
+        private final String Lc;
+        private final String bbc;
+        private final String[] bbd;
+        private final String bbe;
+        private final String[] bbf;
+        private final String bbg;
+        private final String bbh;
+        private final String bbi;
         private final String mTag;
-        private final String zzAE;
-        private final String zzaBk;
-        private final String zzavG;
-        private final String zzbTb;
-        private final String[] zzbTc;
-        private final String zzbTd;
-        private final String[] zzbTe;
-        private final String zzbTf;
-        private final String zzbTg;
-        private final String zzbTh;
+        private final String zzbfm;
 
         private Notification(Bundle bundle) {
-            this.zzavG = zza.zzf(bundle, "gcm.n.title");
-            this.zzbTb = zza.zzh(bundle, "gcm.n.title");
-            this.zzbTc = zzj(bundle, "gcm.n.title");
-            this.zzAE = zza.zzf(bundle, "gcm.n.body");
-            this.zzbTd = zza.zzh(bundle, "gcm.n.body");
-            this.zzbTe = zzj(bundle, "gcm.n.body");
-            this.zzbTf = zza.zzf(bundle, "gcm.n.icon");
-            this.zzbTg = zza.zzR(bundle);
+            this.Fx = zza.zzf(bundle, "gcm.n.title");
+            this.bbc = zza.zzh(bundle, "gcm.n.title");
+            this.bbd = zzj(bundle, "gcm.n.title");
+            this.zzbfm = zza.zzf(bundle, "gcm.n.body");
+            this.bbe = zza.zzh(bundle, "gcm.n.body");
+            this.bbf = zzj(bundle, "gcm.n.body");
+            this.bbg = zza.zzf(bundle, "gcm.n.icon");
+            this.bbh = zza.zzat(bundle);
             this.mTag = zza.zzf(bundle, "gcm.n.tag");
-            this.zzaBk = zza.zzf(bundle, "gcm.n.color");
-            this.zzbTh = zza.zzf(bundle, "gcm.n.click_action");
+            this.Lc = zza.zzf(bundle, "gcm.n.color");
+            this.bbi = zza.zzf(bundle, "gcm.n.click_action");
         }
 
         private String[] zzj(Bundle bundle, String str) {
@@ -117,31 +117,31 @@ public final class RemoteMessage extends AbstractSafeParcelable {
         }
 
         public String getBody() {
-            return this.zzAE;
+            return this.zzbfm;
         }
 
         public String[] getBodyLocalizationArgs() {
-            return this.zzbTe;
+            return this.bbf;
         }
 
         public String getBodyLocalizationKey() {
-            return this.zzbTd;
+            return this.bbe;
         }
 
         public String getClickAction() {
-            return this.zzbTh;
+            return this.bbi;
         }
 
         public String getColor() {
-            return this.zzaBk;
+            return this.Lc;
         }
 
         public String getIcon() {
-            return this.zzbTf;
+            return this.bbg;
         }
 
         public String getSound() {
-            return this.zzbTg;
+            return this.bbh;
         }
 
         public String getTag() {
@@ -149,21 +149,21 @@ public final class RemoteMessage extends AbstractSafeParcelable {
         }
 
         public String getTitle() {
-            return this.zzavG;
+            return this.Fx;
         }
 
         public String[] getTitleLocalizationArgs() {
-            return this.zzbTc;
+            return this.bbd;
         }
 
         public String getTitleLocalizationKey() {
-            return this.zzbTb;
+            return this.bbc;
         }
     }
 
     RemoteMessage(int i, Bundle bundle) {
         this.mVersionCode = i;
-        this.zzaay = bundle;
+        this.bM = bundle;
     }
 
     RemoteMessage(Bundle bundle) {
@@ -171,55 +171,55 @@ public final class RemoteMessage extends AbstractSafeParcelable {
     }
 
     public String getCollapseKey() {
-        return this.zzaay.getString("collapse_key");
+        return this.bM.getString("collapse_key");
     }
 
     public Map<String, String> getData() {
-        if (this.zzUu == null) {
-            this.zzUu = new ArrayMap();
-            for (String str : this.zzaay.keySet()) {
-                Object obj = this.zzaay.get(str);
+        if (this.zzctg == null) {
+            this.zzctg = new ArrayMap();
+            for (String str : this.bM.keySet()) {
+                Object obj = this.bM.get(str);
                 if (obj instanceof String) {
                     String str2 = (String) obj;
                     if (!(str.startsWith("google.") || str.startsWith("gcm.") || str.equals("from") || str.equals("message_type") || str.equals("collapse_key"))) {
-                        this.zzUu.put(str, str2);
+                        this.zzctg.put(str, str2);
                     }
                 }
             }
         }
-        return this.zzUu;
+        return this.zzctg;
     }
 
     public String getFrom() {
-        return this.zzaay.getString("from");
+        return this.bM.getString("from");
     }
 
     public String getMessageId() {
-        String string = this.zzaay.getString("google.message_id");
-        return string == null ? this.zzaay.getString("message_id") : string;
+        String string = this.bM.getString("google.message_id");
+        return string == null ? this.bM.getString("message_id") : string;
     }
 
     public String getMessageType() {
-        return this.zzaay.getString("message_type");
+        return this.bM.getString("message_type");
     }
 
     public Notification getNotification() {
-        if (this.zzbTa == null && zza.zzA(this.zzaay)) {
-            this.zzbTa = new Notification(this.zzaay);
+        if (this.bbb == null && zza.zzac(this.bM)) {
+            this.bbb = new Notification(this.bM);
         }
-        return this.zzbTa;
+        return this.bbb;
     }
 
     public long getSentTime() {
-        return this.zzaay.getLong("google.sent_time");
+        return this.bM.getLong("google.sent_time");
     }
 
     public String getTo() {
-        return this.zzaay.getString("google.to");
+        return this.bM.getString("google.to");
     }
 
     public int getTtl() {
-        Object obj = this.zzaay.get("google.ttl");
+        Object obj = this.bM.get("google.ttl");
         if (obj instanceof Integer) {
             return ((Integer) obj).intValue();
         }
@@ -238,7 +238,7 @@ public final class RemoteMessage extends AbstractSafeParcelable {
         zzc.zza(this, parcel, i);
     }
 
-    void zzF(Intent intent) {
-        intent.putExtras(this.zzaay);
+    void zzaf(Intent intent) {
+        intent.putExtras(this.bM);
     }
 }

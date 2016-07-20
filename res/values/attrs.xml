@@ -1149,21 +1149,6 @@
     <attr name="submitBackground">
         <item>1</item>
     </attr>
-    <attr name="buttonSize">
-        <item>65537</item>
-        <item>2</item>
-        <item>0</item>
-        <item>1</item>
-    </attr>
-    <attr name="colorScheme">
-        <item>65537</item>
-        <item>2</item>
-        <item>0</item>
-        <item>1</item>
-    </attr>
-    <attr name="scopeUris">
-        <item>3</item>
-    </attr>
     <attr name="maxActionInlineWidth">
         <item>64</item>
     </attr>

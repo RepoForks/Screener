@@ -3,11 +3,14 @@ package com.mikepenz.materialdrawer.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build.VERSION;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.R;
 import com.mikepenz.materialdrawer.icons.MaterialDrawerFont.Icon;
@@ -56,5 +59,22 @@ public class DrawerUIUtils {
         } else {
             v.setPadding(verticalPadding * level, 0, verticalPadding, 0);
         }
+    }
+
+    public static boolean isSystemBarOnBottom(Context ctx) {
+        boolean canMove;
+        WindowManager wm = (WindowManager) ctx.getSystemService("window");
+        DisplayMetrics metrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(metrics);
+        Configuration cfg = ctx.getResources().getConfiguration();
+        if (metrics.widthPixels == metrics.heightPixels || cfg.smallestScreenWidthDp >= 600) {
+            canMove = false;
+        } else {
+            canMove = true;
+        }
+        if (!canMove || metrics.widthPixels < metrics.heightPixels) {
+            return true;
+        }
+        return false;
     }
 }

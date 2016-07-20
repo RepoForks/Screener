@@ -183,7 +183,7 @@ class DialogInit {
         }
         dialog.view.setButtonGravity(builder.buttonsGravity);
         dialog.view.setButtonStackedGravity(builder.btnStackedGravity);
-        dialog.view.setForceStack(builder.forceStacking);
+        dialog.view.setStackingBehavior(builder.stackingBehavior);
         if (VERSION.SDK_INT >= 14) {
             textAllCaps = DialogUtils.resolveBoolean(builder.context, 16843660, true);
             if (textAllCaps) {
@@ -290,6 +290,12 @@ class DialogInit {
         dialog.checkIfListInitScroll();
     }
 
+    private static void fixCanvasScalingWhenHardwareAccelerated(ProgressBar pb) {
+        if (VERSION.SDK_INT >= 11 && VERSION.SDK_INT < 18 && pb.isHardwareAccelerated() && pb.getLayerType() != 1) {
+            pb.setLayerType(1, null);
+        }
+    }
+
     private static void setupProgressDialog(MaterialDialog dialog) {
         Builder builder = dialog.mBuilder;
         if (builder.indeterminateProgress || builder.progress > -2) {
@@ -333,14 +339,19 @@ class DialogInit {
                             MarginLayoutParams lp = (MarginLayoutParams) dialog.mProgress.getLayoutParams();
                             lp.leftMargin = 0;
                             lp.rightMargin = 0;
-                            return;
+                        } else {
+                            dialog.mProgressMinMax.setVisibility(8);
                         }
-                        dialog.mProgressMinMax.setVisibility(8);
-                        return;
+                    } else {
+                        builder.showMinMax = false;
                     }
-                    builder.showMinMax = false;
                 }
+            } else {
+                return;
             }
+        }
+        if (dialog.mProgress != null) {
+            fixCanvasScalingWhenHardwareAccelerated(dialog.mProgress);
         }
     }
 

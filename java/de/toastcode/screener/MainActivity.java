@@ -470,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements Listener {
                 ft.replace(R.id.content_frame, this.about);
                 this.lastpos = position;
                 break;
-            case R.styleable.SwitchCompat_switchTextAppearance /*9*/:
+            case R.styleable.Toolbar_contentInsetStartWithNavigation /*9*/:
                 Intent irate = new Intent("android.intent.action.VIEW");
                 irate.setData(Uri.parse("market://details?id=de.toastcode.screener"));
                 startActivity(irate);

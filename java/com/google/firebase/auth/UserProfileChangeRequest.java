@@ -9,37 +9,37 @@ import com.google.android.gms.common.internal.safeparcel.AbstractSafeParcelable;
 
 public class UserProfileChangeRequest extends AbstractSafeParcelable {
     public static final Creator<UserProfileChangeRequest> CREATOR = new zza();
+    private String Ld;
+    private boolean aNu;
+    private boolean aNv;
+    private Uri aNw;
+    private String dH;
     public final int mVersionCode;
-    private String zzaBl;
-    private String zzaco;
-    private boolean zzbFl;
-    private boolean zzbFm;
-    private Uri zzbFn;
 
     public static class Builder {
-        private String zzaco;
-        private boolean zzbFl;
-        private boolean zzbFm;
-        private Uri zzbFn;
+        private boolean aNu;
+        private boolean aNv;
+        private Uri aNw;
+        private String dH;
 
         public UserProfileChangeRequest build() {
-            return new UserProfileChangeRequest(1, this.zzaco, this.zzbFn == null ? null : this.zzbFn.toString(), this.zzbFl, this.zzbFm);
+            return new UserProfileChangeRequest(1, this.dH, this.aNw == null ? null : this.aNw.toString(), this.aNu, this.aNv);
         }
 
         public Builder setDisplayName(@Nullable String str) {
             if (str == null) {
-                this.zzbFl = true;
+                this.aNu = true;
             } else {
-                this.zzaco = str;
+                this.dH = str;
             }
             return this;
         }
 
         public Builder setPhotoUri(@Nullable Uri uri) {
             if (uri == null) {
-                this.zzbFm = true;
+                this.aNv = true;
             } else {
-                this.zzbFn = uri;
+                this.aNw = uri;
             }
             return this;
         }
@@ -47,36 +47,36 @@ public class UserProfileChangeRequest extends AbstractSafeParcelable {
 
     UserProfileChangeRequest(int i, String str, String str2, boolean z, boolean z2) {
         this.mVersionCode = i;
-        this.zzaco = str;
-        this.zzaBl = str2;
-        this.zzbFl = z;
-        this.zzbFm = z2;
-        this.zzbFn = TextUtils.isEmpty(str2) ? null : Uri.parse(str2);
+        this.dH = str;
+        this.Ld = str2;
+        this.aNu = z;
+        this.aNv = z2;
+        this.aNw = TextUtils.isEmpty(str2) ? null : Uri.parse(str2);
     }
 
     @Nullable
     public String getDisplayName() {
-        return this.zzaco;
+        return this.dH;
     }
 
     @Nullable
     public Uri getPhotoUri() {
-        return this.zzbFn;
+        return this.aNw;
     }
 
     public void writeToParcel(Parcel parcel, int i) {
         zza.zza(this, parcel, i);
     }
 
-    public String zzOo() {
-        return this.zzaBl;
+    public String zzckv() {
+        return this.Ld;
     }
 
-    public boolean zzOp() {
-        return this.zzbFl;
+    public boolean zzckw() {
+        return this.aNu;
     }
 
-    public boolean zzOq() {
-        return this.zzbFm;
+    public boolean zzckx() {
+        return this.aNv;
     }
 }
